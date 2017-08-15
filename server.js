@@ -34,13 +34,14 @@ var Post = require('./models/post');
 
  app.get('/api', controllers.api.index);
 
+ // Listings
  app.get('/api/listings', controllers.listings.index);
  app.get('/api/listings/:listingId', controllers.listings.show);
  app.post('/api/listings', controllers.listings.create);
  app.delete('/api/listings/:listingId', controllers.listings.destroy);
  app.put('/api/listings/:listingId', controllers.listings.update);
 
-
+//  Profile
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {
   User.findById(req.user, function (err, user) {
     res.send(user.populate('posts'));
@@ -61,21 +62,21 @@ app.put('/api/me', auth.ensureAuthenticated, function (req, res) {
   });
 });
 
-
-app.post('/api/posts', auth.ensureAuthenticated, function (req, res) {
-  User.findById(req.user, function (err, user) {
-    var newPost = new Post(req.body);
-    newPost.save(function (err, savedPost) {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        user.posts.push(newPost);
-        user.save();
-        res.json(savedPost);
-      }
-    });
-  });
-});
+// 
+// app.post('/api/posts', auth.ensureAuthenticated, function (req, res) {
+//   User.findById(req.user, function (err, user) {
+//     var newPost = new Post(req.body);
+//     newPost.save(function (err, savedPost) {
+//       if (err) {
+//         res.status(500).json({ error: err.message });
+//       } else {
+//         user.posts.push(newPost);
+//         user.save();
+//         res.json(savedPost);
+//       }
+//     });
+//   });
+// });
 
 
 /*

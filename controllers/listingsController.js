@@ -45,6 +45,9 @@ function update(req, res) {
     console.log(req.params.listingId);
     if(err) { console.log('listingsController.update error', err); }
     foundListing.topic = req.body.topic;
+    foundListing.description = req.body.description;
+    foundListing.budget = req.body.budget;
+    foundListing.location = req.body.location;
     foundListing.save(function(err, savedListing) {
       if(err) { console.log('saving altered listing failed'); }
       res.json(savedListing);

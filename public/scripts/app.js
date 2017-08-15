@@ -235,8 +235,6 @@ function ListingsIndexController ($http, $location) {
     });
   };
 
-
-
 };
 
 ListingShowController.$inject = ['$http', '$stateParams', '$location'];
@@ -269,7 +267,6 @@ function ListingShowController ($http, $stateParams, $location) {
       url: '/api/listings/'+ $stateParams.listingId
     }).then(function successCallback(json) {
       $location.path('/');
-
       // var index = vm.listings.indexOf(listing);
       // vm.listings.splice(index,1);
     }, function errorCallback(response) {
