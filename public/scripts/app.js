@@ -1,7 +1,8 @@
 angular
   .module('identifly', [
     'ui.router',
-    'satellizer'
+    'satellizer',
+    'ngMessages'
   ])
   .controller('MainController', MainController)
   .controller('HomeController', HomeController)

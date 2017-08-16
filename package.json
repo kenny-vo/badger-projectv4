@@ -10,6 +10,7 @@
   "author": "Kenny Vo",
   "license": "ISC",
   "dependencies": {
+    "angular-messages": "^1.6.5",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.2",
     "dotenv": "^2.0.0",
