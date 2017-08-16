@@ -156,13 +156,11 @@ function HomeController ($http, $location) {
 LoginController.$inject = ["$location", "Account"]; // minification protection
 function LoginController ($location, Account) {
   var vm = this;
-  vm.new_user = {}; // form data
 
   vm.login = function() {
     Account
       .login(vm.new_user)
       .then(function(){
-        vm.new_user = {}; // clear sign up form
         $location.path('/profile'); // redirect to '/profile'
       })
   };
@@ -178,8 +176,7 @@ function SignupController ($location, Account) {
       .signup(vm.new_user)
       .then(
         function (response) {
-          vm.new_user = {}; // clear sign up form
-          $location.path('/profile'); // redirect to '/profile'
+          $location.path('/signup');
         }
       );
   };
@@ -305,6 +302,8 @@ function Account($http, $q, $auth) {
 
           function onError(error) {
             console.error(error);
+            alert("Email is already taken");
+
           }
         )
     );
@@ -321,6 +320,7 @@ function Account($http, $q, $auth) {
 
           function onError(error) {
             console.error(error);
+            alert("Invalid Email or Password");
           }
         )
     );

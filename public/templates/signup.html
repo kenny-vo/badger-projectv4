@@ -10,7 +10,6 @@
 				ng-if="signupForm.displayName.$dirty">
 		<div ng-message="required"> This field is required</div>
 		<div ng-message="maxlength">Name is too long</div>
-
 	</div>
 	<!-- UserName -->
   <div class="form-group">
@@ -28,7 +27,7 @@
 	<div ng-messages="signupForm.userEmail.$error"
 		ng-if="signupForm.userEmail.$dirty">
 		<div ng-message="required"> This field is required</div>
-		<div ng-message="email">Your email address is invalid</div>
+		<div ng-message="email">Type a valid email address</div>
 	</div>
 	<!-- Password -->
   <div class="form-group">
