@@ -115,7 +115,7 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
 // CONTROLLERS //
 /////////////////
 
-MainController.$inject = ["Account"]; // minification protection
+MainController.$inject = ["Account"];
 function MainController (Account) {
   var vm = this;
 
@@ -125,7 +125,7 @@ function MainController (Account) {
 
 }
 
-HomeController.$inject = ["$http", '$location']; // minification protection
+HomeController.$inject = ["$http", '$location'];
 function HomeController ($http, $location) {
   var vm = this;
   vm.newListing = {};
@@ -153,7 +153,7 @@ function HomeController ($http, $location) {
   };
 }
 
-LoginController.$inject = ["$location", "Account"]; // minification protection
+LoginController.$inject = ["$location", "Account"];
 function LoginController ($location, Account) {
   var vm = this;
 
@@ -166,7 +166,7 @@ function LoginController ($location, Account) {
   };
 }
 
-SignupController.$inject = ["$location", "Account"]; // minification protection
+SignupController.$inject = ["$location", "Account"];
 function SignupController ($location, Account) {
   var vm = this;
   vm.new_user = {}; // form data
