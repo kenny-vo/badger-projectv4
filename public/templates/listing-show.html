@@ -24,7 +24,7 @@
                     </li>
                     <li class="list-group-item">
                       <h4 class='inline-header'>Budget:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.budget}}</a></span>
+                      <span ng-hide="editing">{{listingShowCtrl.listing.budget| currency : $ : 0}}</a></span>
                       <input ng-show="editing" ng-model="listingShowCtrl.listing.budget" type="text" class="form-control input-md">
                     </li>
                     <li class="list-group-item">
