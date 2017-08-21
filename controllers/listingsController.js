@@ -8,12 +8,13 @@
 function index (req, res) {
   db.Listing.find({}, function(err, allListings) {
     res.json(allListings);
+    // console.log(req.user._id);
   });
+
 }
 
 function create(req, res) {
   console.log('body', req.body);
-
   db.Listing.create(req.body, function(err, listing) {
     if (err) { console.log('error', err); }
     console.log(listing);

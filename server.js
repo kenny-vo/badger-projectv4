@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost/identifly');
 
 // require User and Post models
 var User = require('./models/user');
-var Post = require('./models/post');
+var Listing = require('./models/listing');
 
 
 /*
@@ -37,7 +37,7 @@ var Post = require('./models/post');
  // Listings
  app.get('/api/listings', controllers.listings.index);
  app.get('/api/listings/:listingId', controllers.listings.show);
- app.post('/api/listings', controllers.listings.create);
+ // app.post('/api/listings', controllers.listings.create);
  app.delete('/api/listings/:listingId', controllers.listings.destroy);
  app.put('/api/listings/:listingId', controllers.listings.update);
 
@@ -62,21 +62,21 @@ app.put('/api/me', auth.ensureAuthenticated, function (req, res) {
   });
 });
 
-// 
-// app.post('/api/posts', auth.ensureAuthenticated, function (req, res) {
-//   User.findById(req.user, function (err, user) {
-//     var newPost = new Post(req.body);
-//     newPost.save(function (err, savedPost) {
-//       if (err) {
-//         res.status(500).json({ error: err.message });
-//       } else {
-//         user.posts.push(newPost);
-//         user.save();
-//         res.json(savedPost);
-//       }
-//     });
-//   });
-// });
+//
+app.post('/api/listings', auth.ensureAuthenticated, function (req, res) {
+  User.findById(req.user, function (err, user) {
+    var newListing = new Listing(req.body);
+    newListing.save(function (err, savedListing) {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        user.listings.push(newListing);
+        user.save();
+        res.json(savedListing);
+      }
+    });
+  });
+});
 
 
 /*

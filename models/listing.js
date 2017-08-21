@@ -9,9 +9,18 @@ var ListingSchema = new Schema({
   req1: String,
   req2: String,
   req3: String,
-  datePost: String,
-  dateReq: String
+  created: String,
+  dateReq: String,
+  uid: String
 })
+
+ListingSchema.pre('save', function(next) {
+  now = new Date().toLocaleDateString('en-US');
+  if (!this.created)
+    this.created = now;
+
+  next();
+});
 
 var Listing = mongoose.model('Listing', ListingSchema);
 

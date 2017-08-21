@@ -386,6 +386,7 @@ function Account($http, $q, $auth) {
         .then(
           function (response) {
             self.user = response.data;
+            console.log(self.user);
           }
         )
     );
