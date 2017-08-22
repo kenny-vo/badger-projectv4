@@ -15,7 +15,6 @@ var userSchema = new Schema({
 });
 
 userSchema.pre('save', function (next) {
-  // set created and updated
   now = new Date();
   this.updated = now;
   if (!this.created) {

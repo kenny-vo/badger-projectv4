@@ -8,25 +8,31 @@
 function index (req, res) {
   db.Listing.find({}, function(err, allListings) {
     res.json(allListings);
-    // console.log(req.user._id);
   });
 
 }
 
 function create(req, res) {
-  console.log('body', req.body);
-  db.Listing.create(req.body, function(err, listing) {
-    if (err) { console.log('error', err); }
-    console.log(listing);
-    res.json(listing);
+  db.User.findById(req.user, function (err, user) {
+    if (err) {console.log(err);}
+    var newListing = new db.Listing(req.body);
+    newListing.uid = user._id
+    newListing.save(function (err, savedListing) {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        user.listings.push(newListing);
+        user.save();
+        res.json(savedListing);
+      }
+    });
   });
-}
+};
 
 function show(req, res) {
   console.log(req.body);
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
     if(err) { console.log('listingsController.show error', err); }
-    console.log('listingsController.show responding with', foundListing);
     res.json(foundListing);
   });
 }

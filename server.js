@@ -37,11 +37,20 @@ var Listing = require('./models/listing');
  // Listings
  app.get('/api/listings', controllers.listings.index);
  app.get('/api/listings/:listingId', controllers.listings.show);
- // app.post('/api/listings', controllers.listings.create);
- app.delete('/api/listings/:listingId', controllers.listings.destroy);
- app.put('/api/listings/:listingId', controllers.listings.update);
+ app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
+ app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
+ app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
 
 //  Profile
+
+app.get('/api/users', function (req, res) {
+  User.find({}, function (err, user) {
+    res.json(user);
+  });
+});
+
+
+
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {
   User.findById(req.user, function (err, user) {
     res.send(user.populate('posts'));
@@ -57,23 +66,7 @@ app.put('/api/me', auth.ensureAuthenticated, function (req, res) {
     user.username = req.body.username || user.username;
     user.email = req.body.email || user.email;
     user.save(function(err) {
-      res.send(user.populate('posts'));
-    });
-  });
-});
-
-//
-app.post('/api/listings', auth.ensureAuthenticated, function (req, res) {
-  User.findById(req.user, function (err, user) {
-    var newListing = new Listing(req.body);
-    newListing.save(function (err, savedListing) {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        user.listings.push(newListing);
-        user.save();
-        res.json(savedListing);
-      }
+      res.send(user.populate('listings'));
     });
   });
 });

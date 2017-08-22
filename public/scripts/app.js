@@ -223,8 +223,8 @@ function ProfileController ($location, Account) {
   };
 }
 
-ListingsIndexController.$inject = ['$http', '$location'];
-function ListingsIndexController ($http, $location) {
+ListingsIndexController.$inject = ['$http', '$location', 'Account'];
+function ListingsIndexController ($http, $location, Account) {
   var vm = this;
   vm.newListing = {};
 
@@ -233,6 +233,8 @@ function ListingsIndexController ($http, $location) {
     url: '/api/listings'
   }).then(function successCallback(response) {
     vm.listings = response.data;
+    console.log(Account.currentUser()._id);
+
   }, function errorCallback(response) {
     console.log('Error getting data', response);
   });
@@ -282,8 +284,6 @@ function ListingShowController ($http, $stateParams, $location) {
       url: '/api/listings/'+ $stateParams.listingId
     }).then(function successCallback(json) {
       $location.path('/');
-      // var index = vm.listings.indexOf(listing);
-      // vm.listings.splice(index,1);
     }, function errorCallback(response) {
       console.log('There was an error deleting the data', response);
     });
@@ -386,7 +386,6 @@ function Account($http, $q, $auth) {
         .then(
           function (response) {
             self.user = response.data;
-            console.log(self.user);
           }
         )
     );
