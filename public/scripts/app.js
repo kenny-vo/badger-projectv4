@@ -58,6 +58,10 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeController',
       controllerAs: 'home'
     })
+    .state('about', {
+      url: '/about',
+      templateUrl: 'templates/about.html',
+    })
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
