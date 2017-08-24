@@ -99,5 +99,5 @@ app.get('*', function (req, res) {
  * Listen on localhost:3000
  */
  app.listen(process.env.PORT || 9000, function () {
-   console.log('Express server is running on http://localhost:3000/');
+   console.log('Express server is running on port ' + (process.env.PORT || 9000));
  });
