@@ -281,6 +281,13 @@ function ListingShowController ($http, $stateParams, $location) {
   });
 
   vm.editListing = function (listing) {
+    console.log('$stateParams is');
+    console.log($stateParams);
+
+    console.log('listing is');
+    console.log(listing);
+    
+    
     $http({
       method: 'PUT',
       url: '/api/listings/'+$stateParams.listingId,
