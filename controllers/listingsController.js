@@ -36,13 +36,8 @@ function destroy(req, res) {
   });
 }
 
-function update(req, res) {
-  console.log('updating with data', req.body);
+function update(req, res) { 
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
-    console.log(req.body);
-    console.log(req.body.topic);
-    console.log(foundListing);
-    console.log(req.params.listingId);
     if(err) { console.log('listingsController.update error', err); }
     foundListing.topic = req.body.topic;
     foundListing.description = req.body.description;
