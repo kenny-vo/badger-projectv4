@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcryptjs'),
-    ObjectId = Schema.ObjectId;
+    Listing = require('./listing');
 
 var userSchema = new Schema({
   created: { type: Date },
@@ -10,8 +10,8 @@ var userSchema = new Schema({
   password: { type: String, select: false },
   displayName: String,
   username: { type: String },
-  picture: String,
-  listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
+  picture: { type: String },
+  listings: [Listing.schema]
 });
 
 userSchema.pre('save', function (next) {

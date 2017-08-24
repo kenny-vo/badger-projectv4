@@ -49,6 +49,13 @@ app.get('/api/users', function (req, res) {
   });
 });
 
+app.get('/api/users/:_id', function (req, res) {
+  User.findById(req.params._id, function (err, foundUser) {
+    if(err) {console.log(err);}
+    res.json(foundUser);
+  });
+});
+
 
 
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {

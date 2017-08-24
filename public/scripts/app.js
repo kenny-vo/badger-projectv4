@@ -213,10 +213,19 @@ function LogoutController ($location, Account) {
 }
 
 
-ProfileController.$inject = ["$location", "Account"]; // minification protection
-function ProfileController ($location, Account) {
+ProfileController.$inject = ["$location", "Account", "$http"]; // minification protection
+function ProfileController ($location, Account, $http) {
   var vm = this;
   vm.new_profile = {}; // form data
+
+  $http({
+    method: 'GET',
+    url: '/api/listings'
+  }).then(function successCallback(response) {
+    vm.listings = response.data;
+  }, function errorCallback(response) {
+    console.log('Error getting data', response);
+  });
 
   vm.updateProfile = function() {
     Account
