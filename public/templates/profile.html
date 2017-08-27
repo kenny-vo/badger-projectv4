@@ -7,7 +7,6 @@
 				<p><strong>Username:</strong> {{main.currentUser().username}}</p>
 				<p><strong>Joined:</strong> {{main.currentUser().created | date:'MMMM dd, yyyy'}}</p>
 				<p><strong>Requests:</strong> {{main.currentUser().listings.length}}</p>
-			<p><strong>List:</strong> {{main.currentUser().listings[0].topic}},
 
 			<hr>
 			<a href="#" ng-click="profile.showEditForm=true" ng-hide="profile.showEditForm" class="btn btn-default"><i class="fa fa-pencil"></i> Edit Profile</a>

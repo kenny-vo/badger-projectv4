@@ -236,8 +236,8 @@ function ProfileController ($location, Account, $http) {
   };
 }
 
-ListingsIndexController.$inject = ['$http', '$location', 'Account'];
-function ListingsIndexController ($http, $location, Account) {
+ListingsIndexController.$inject = ['$http', '$location'];
+function ListingsIndexController ($http, $location) {
   var vm = this;
   vm.newListing = {};
 
@@ -246,7 +246,7 @@ function ListingsIndexController ($http, $location, Account) {
     url: '/api/listings'
   }).then(function successCallback(response) {
     vm.listings = response.data;
-    console.log(Account.currentUser()._id);
+    // console.log(Account.currentUser()._id);
 
   }, function errorCallback(response) {
     console.log('Error getting data', response);
@@ -281,13 +281,7 @@ function ListingShowController ($http, $stateParams, $location) {
   });
 
   vm.editListing = function (listing) {
-    console.log('$stateParams is');
-    console.log($stateParams);
 
-    console.log('listing is');
-    console.log(listing);
-    
-    
     $http({
       method: 'PUT',
       url: '/api/listings/'+$stateParams.listingId,

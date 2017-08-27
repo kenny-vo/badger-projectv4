@@ -1,3 +1,5 @@
+"use strict";
+
 // require express and other modules
 var express = require('express'),
     app = express(),

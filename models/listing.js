@@ -12,6 +12,7 @@ var ListingSchema = new Schema({
   created: String,
   dateReq: String,
   uid: String
+  // bids: [Strings]
 })
 
 ListingSchema.pre('save', function(next) {
