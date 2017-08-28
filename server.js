@@ -1,4 +1,3 @@
-"use strict";
 
 // require express and other modules
 var express = require('express'),
@@ -42,6 +41,12 @@ var Listing = require('./models/listing');
  app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
  app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
  app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
+
+// responses
+
+app.get('/api/listings/:listingId/bids', controllers.bids.index);
+app.post('/api/listings/:listingId/bids', controllers.bids.create);
+
 
 //  Profile
 

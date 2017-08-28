@@ -3,3 +3,4 @@
 
 module.exports.User = require('./user');
 module.exports.Listing = require('./listing');
+module.exports.Bid = require('./bid');

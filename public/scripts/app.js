@@ -12,7 +12,6 @@ angular
   .controller('ProfileController', ProfileController)
   .controller('ListingsIndexController', ListingsIndexController)
   .controller('ListingShowController', ListingShowController)
-
   .service('Account', Account)
   .config(configRoutes)
   .directive('format', ['$filter', function ($filter) {
@@ -106,6 +105,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('listing-detail', {
       url: '/listing/:listingId',
       templateUrl: 'templates/listing-show.html',
+      controller: 'ListingShowController',
+      controllerAs: 'listingShowCtrl'
+    })
+    .state('bid', {
+      url: '/listing/:listingId/response',
+      templateUrl: 'templates/bid.html',
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
     });

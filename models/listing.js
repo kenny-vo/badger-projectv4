@@ -1,6 +1,8 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
+var Bid = require('./bid');
+
 var ListingSchema = new Schema({
   topic: String,
   description: String,
@@ -11,8 +13,8 @@ var ListingSchema = new Schema({
   req3: String,
   created: String,
   dateReq: String,
-  uid: String
-  // bids: [Strings]
+  uid: String,
+  bids: [Bid.schema]
 })
 
 ListingSchema.pre('save', function(next) {

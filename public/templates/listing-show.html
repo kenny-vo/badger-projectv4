@@ -40,6 +40,8 @@
                   <button class='btn btn-danger' ng-click="listingShowCtrl.deleteListing(listing)">Delete Listing</button>
                   <button class='btn btn-info' ng-hide="editing" ng-click="editing = true">Edit Listing</button>
                   <button class='btn btn-success' ng-show="editing" ng-click="listingShowCtrl.editListing(listingShowCtrl.listing); editing = false">Save Changes</button>
+                  <button ng-show="main.currentUser()"><a ui-sref="bid({listingId: listing._id})">Respond</a></button>
+
                 </div>
               </div>
             </div>
