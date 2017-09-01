@@ -308,6 +308,19 @@ function ListingShowController ($http, $stateParams, $location) {
     });
   }
 
+  vm.createBid = function () {
+  $http({
+    method: 'POST',
+    url: '/api/listings/'+ $stateParams.listingId + '/bids',
+    data: vm.newBid
+  }).then(function successCallback(json) {
+    vm.listing.bids.push(json.data);
+    vm.newBid = {};
+  }, function errorCallback(response) {
+    console.log('There was an error creating the data', response);
+  });
+}
+
 };
 
 

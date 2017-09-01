@@ -42,7 +42,7 @@ var Listing = require('./models/listing');
  app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
  app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
 
-// responses
+// Bids
 
 app.get('/api/listings/:listingId/bids', controllers.bids.index);
 app.post('/api/listings/:listingId/bids', controllers.bids.create);
