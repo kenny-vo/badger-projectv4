@@ -251,8 +251,6 @@ function ListingsIndexController ($http, $location) {
     url: '/api/listings'
   }).then(function successCallback(response) {
     vm.listings = response.data;
-    // console.log(Account.currentUser()._id);
-
   }, function errorCallback(response) {
     console.log('Error getting data', response);
   });

@@ -44,8 +44,8 @@ var Listing = require('./models/listing');
 
 // Bids
 
-app.get('/api/listings/:listingId/bids', controllers.bids.index);
-app.post('/api/listings/:listingId/bids', controllers.bids.create);
+app.get('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.index);
+app.post('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.create);
 
 
 //  Profile

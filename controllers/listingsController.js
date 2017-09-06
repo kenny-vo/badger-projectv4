@@ -14,6 +14,7 @@ function index (req, res) {
 
 function create(req, res) {
   db.User.findById(req.user, function (err, user) {
+    console.log(req.user)
     if (err) {console.log(err);}
     var newListing = new db.Listing(req.body);
     newListing.uid = user._id
@@ -43,7 +44,7 @@ function destroy(req, res) {
   });
 }
 
-function update(req, res) { 
+function update(req, res) {
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
     if(err) { console.log('listingsController.update error', err); }
     foundListing.topic = req.body.topic;

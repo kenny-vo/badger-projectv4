@@ -22,6 +22,7 @@
                   <h3><a ui-sref="listing-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
                   <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
                   <p class="card-text">{{listing.description}}</p>
+                  {{listing.bids.length}}
                 </li>
               </ul>
 
