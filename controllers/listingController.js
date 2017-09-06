@@ -9,7 +9,6 @@ function index (req, res) {
   db.Listing.find({}, function(err, allListings) {
     res.json(allListings);
   });
-
 }
 
 function create(req, res) {
@@ -31,11 +30,28 @@ function create(req, res) {
 };
 
 function show(req, res) {
-  console.log(req.body);
-  db.Listing.findById(req.params.listingId, function(err, foundListing) {
-    if(err) { console.log('listingsController.show error', err); }
-    res.json(foundListing);
-  });
+  db.User.findById(req.user, function (err, user) {
+    console.log(req.user)
+    if (err) {console.log(err);}
+    db.Listing.findById(req.params.listingId, function(err, foundListing) {
+      console.log(foundListing.uid );
+
+      if(err) { console.log('listingsController.show error', err); }
+      res.json(foundListing);
+    });
+  })
+}
+
+function indexUnique(req, res) {
+  db.User.findById(req.user, function (err, user) {
+    console.log(req.user)
+    if (err) {console.log(err);}
+    db.Listing.find({uid: req.user}, function(err, listings) {
+      console.log(listings.uid );
+      if(err) { console.log('listingsController.show error', err); }
+      res.json(listings);
+    });
+  })
 }
 
 function destroy(req, res) {
@@ -64,5 +80,6 @@ module.exports = {
   create: create,
   show: show,
   destroy: destroy,
-  update: update
+  update: update,
+  indexUnique: indexUnique
 };
