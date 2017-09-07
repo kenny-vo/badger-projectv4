@@ -37,20 +37,18 @@ var Listing = require('./models/listing');
 
  // Listings
  app.get('/api/listings', controllers.listings.index);
- app.get('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.show);
+ app.get('/api/listings/:listingId', controllers.listings.show);
  app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
  app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
  app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
 
 // Bids
 
-app.get('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.index);
+app.get('/api/users/:listingId/bids', auth.ensureAuthenticated, controllers.bids.index);
 app.post('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.create);
 
 
 //  Profile
-
-app.get('/api/listings/', auth.ensureAuthenticated, controllers.profiles.indexUnique);
 
 app.get('/api/users', function (req, res) {
   User.find({}, function (err, user) {
@@ -58,12 +56,12 @@ app.get('/api/users', function (req, res) {
   });
 });
 
-// app.get('/api/users/:_id', function (req, res) {
-//   User.findById(req.params._id, function (err, foundUser) {
-//     if(err) {console.log(err);}
-//     res.json(foundUser);
-//   });
-// });
+app.get('/api/users/:_id', function (req, res) {
+  User.findById(req.params._id, function (err, foundUser) {
+    if(err) {console.log(err);}
+    res.json(foundUser);
+  });
+});
 
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {
   User.findById(req.user, function (err, user) {

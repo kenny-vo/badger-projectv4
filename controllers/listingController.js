@@ -31,10 +31,10 @@ function create(req, res) {
 
 function show(req, res) {
   db.User.findById(req.user, function (err, user) {
-    console.log(req.user)
+    // console.log(req.user)
     if (err) {console.log(err);}
     db.Listing.findById(req.params.listingId, function(err, foundListing) {
-      console.log(foundListing.uid );
+      // console.log(foundListing.uid );
 
       if(err) { console.log('listingsController.show error', err); }
       res.json(foundListing);
@@ -80,6 +80,5 @@ module.exports = {
   create: create,
   show: show,
   destroy: destroy,
-  update: update,
-  indexUnique: indexUnique
+  update: update
 };
