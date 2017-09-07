@@ -38,8 +38,37 @@ function show(req, res) {
 }
 
 function destroy(req, res) {
-  db.Listing.findOneAndRemove({_id: req.params.listingId }, function(err, foundListing){
-    res.json(foundListing);
+  console.log('req.user is ',req.user);
+  
+  db.User.findById(req.user, function(err, user) {
+    if (err) {
+      console.log('Error finding a user when trying to delete a record.');
+      res.json(err);
+    }
+
+    // console.log(new Date().toLocaleTimeString());
+
+    console.log(Array.isArray(user.listings));
+    
+    console.log(typeof(user.listings[0]._id.toString()));
+    console.log(user.listings[0]._id.toString());
+    
+
+    user.listings = user.listings.filter(function(element) {
+      // return element.description !== 'r1';
+      return element._id.toString() !== req.params.listingId;
+    });
+
+    console.log();
+    console.log();
+    console.log(user.listings);
+    
+    
+    
+    user.save(function(err, savedListing) {
+      if(err) { console.log('saving altered listing failed'); }
+      res.json(savedListing);
+    });    
   });
 }
 
