@@ -6,8 +6,12 @@
 
  // GET /api/listings
 function index (req, res) {
-  db.Listing.find({}, function(err, allListings) {
-    res.json(allListings);
+  db.User.findById(req.user, function (err, user) {
+    if (err) {
+      res.json(err);
+    }
+
+    res.json(user.listings);
   });
 
 }
@@ -31,9 +35,17 @@ function create(req, res) {
 
 function show(req, res) {
   console.log(req.body);
-  db.Listing.findById(req.params.listingId, function(err, foundListing) {
-    if(err) { console.log('listingsController.show error', err); }
-    res.json(foundListing);
+  db.User.findById(req.user, function (err, user) {
+
+
+    let pertinentListing = user.listings.find(function filter(element) {
+      return element._id.toString() === req.params.listingId;
+    });
+    
+    if(err) { 
+      console.log('listingsController.show error', err);
+    }
+    res.json(pertinentListing);
   });
 }
 
@@ -45,26 +57,11 @@ function destroy(req, res) {
       console.log('Error finding a user when trying to delete a record.');
       res.json(err);
     }
-
-    // console.log(new Date().toLocaleTimeString());
-
-    console.log(Array.isArray(user.listings));
-    
-    console.log(typeof(user.listings[0]._id.toString()));
-    console.log(user.listings[0]._id.toString());
-    
-
+   
     user.listings = user.listings.filter(function(element) {
-      // return element.description !== 'r1';
       return element._id.toString() !== req.params.listingId;
     });
 
-    console.log();
-    console.log();
-    console.log(user.listings);
-    
-    
-    
     user.save(function(err, savedListing) {
       if(err) { console.log('saving altered listing failed'); }
       res.json(savedListing);
