@@ -24,17 +24,22 @@ function create(req, res) {
       for (let i = 0; i < foundUser.listings.length; i++) {
         // console.log(foundUser.listings[i]._id);
         if (foundUser.listings[i]._id == req.params.listingId) {
-          console.log( 'found it! - ' + foundUser.listings[i].topic);
-          var newBid = new db.Bid(req.body);
-          var oldLength = foundUser.listings[i].bids.length;
-          foundUser.listings[i].bids.set(oldLength, newBid);
-          foundUser.save(function(err, savedListing) {
-            // console.log(foundUser.listings[i])
-            if (err) {
-              console.log('Error: ', err);
-              return;
-            }
+          db.User.findById(req.user, function(err, user) {
+            console.log(user.email)
+            console.log( 'found it! - ' + foundUser.listings[i].topic);
+            var newBid = new db.Bid(req.body);
+              newBid.uid = user._id;
+              newBid.respondEmail = user.email;
+            var oldLength = foundUser.listings[i].bids.length;
+            foundUser.listings[i].bids.set(oldLength, newBid);
+            foundUser.save(function(err, savedListing) {
+              // console.log(foundUser.listings[i])
+              if (err) {
+                console.log('Error: ', err);
+                return;
+              }
               res.json(newBid);
+            });
           })
         }
       }
@@ -84,28 +89,7 @@ function create(req, res) {
 //   });
 // };
 
-// function create(req, res) {
-//   db.User.findById(req.params._id, function (err, foundUser) {
-//     if(err) {console.log(err);}
-//     db.Listing.findById(req.params.listingId, function(err, foundListing) {
-//       if (err) {
-//         console.log('Error', err);
-//       }
-//       for (let i = 0; i < foundUser.listings.length; i++) {
-//         console.log(foundUser.listings[i].topic);
-//         if(foundUser.listings[i]._id === foundListing._id) {
-//           console.log('asdasd' +foundUser.listings[i].topic)
-//           var newBid = req.body;
-//           // newBid.uid = user._id
-//           foundListing.bids.push(newBid);
-//           foundListing.save(function(err, savedBid) {
-//             res.json(foundListing);
-//           })
-//         }
-//       }
-//     });
-//   })
-// };
+
 
 module.exports = {
   index: index,
