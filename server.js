@@ -63,6 +63,19 @@ app.get('/api/users/:_id', function (req, res) {
   });
 });
 
+app.get('/api/users/:_id/listings', function (req, res) {
+  Listing.findById(req.params.listingId, function(err, foundListing){
+    // console.log(foundListing);
+  })
+  User.findOne({'listings.id': req.params.listingId }, function (err, foundUser) {
+    if(err) {console.log(err);}
+    res.json(foundUser.listings);
+    for (let i = 0; i < foundUser.listings.length; i++) {
+      // console.log(foundUser.listings[i])
+    }
+  });
+});
+
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {
   User.findById(req.user, function (err, user) {
     res.send(user.populate('posts'));

@@ -29,18 +29,30 @@ function create(req, res) {
   });
 };
 
-function show(req, res) {
-  db.User.findById(req.user, function (err, user) {
-    // console.log(req.user)
-    if (err) {console.log(err);}
-    db.Listing.findById(req.params.listingId, function(err, foundListing) {
-      // console.log(foundListing.uid );
+// function show(req, res) {
+//   db.User.findById(req.user, function (err, user) {
+//     // console.log(req.user)
+//     if (err) {console.log(err);}
+//     db.Listing.findById(req.params.listingId, function(err, foundListing) {
+//       // console.log(foundListing.uid );
+//
+//       if(err) { console.log('listingsController.show error', err); }
+//       res.json(foundListing);
+//     });
+//   })
+// }
 
-      if(err) { console.log('listingsController.show error', err); }
-      res.json(foundListing);
+function show(req, res) {
+    db.Listing.findById(req.params.listingId, function(err, foundListing) {
+      if (err) {
+        console.log('Error', err);
+      }
+      db.User.findOne({ 'listings._id': req.params.listingId }, function(err, foundUser) {
+        // console.log(foundUser.listings);
+        res.json(foundListing);
+      })
     });
-  })
-}
+};
 
 function indexUnique(req, res) {
   db.User.findById(req.user, function (err, user) {
