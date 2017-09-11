@@ -21,8 +21,16 @@ app.use(bodyParser.json());
 // set view engine to hbs (handlebars)
 app.set('view engine', 'hbs');
 
+mongoose.Promise = global.Promise;
+
 // connect to mongodb
-mongoose.connect('mongodb://localhost/identifly');
+mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
+  .then(() => {
+    console.log('Connected to database at ', new Date().toLocaleString());
+  })
+  .catch((err) => {
+    console.error('Error connecting to the database: ', err);
+  });
 
 // require User and Post models
 var User = require('./models/user');
@@ -36,8 +44,8 @@ var Listing = require('./models/listing');
  app.get('/api', controllers.api.index);
 
  // Listings
- app.get('/api/listings', controllers.listings.index);
- app.get('/api/listings/:listingId', controllers.listings.show);
+ app.get('/api/listings', auth.ensureAuthenticated, controllers.listings.index);
+ app.get('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.show);
  app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
  app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
  app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
