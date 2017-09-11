@@ -12,6 +12,8 @@ function index (req, res) {
     }
 
     res.json(user.listings);
+  db.Listing.find({}, function(err, allListings) {
+    res.json(allListings);
   });
 }
 
@@ -34,7 +36,6 @@ function create(req, res) {
 };
 
 function show(req, res) {
-<<<<<<< HEAD:controllers/listingController.js
   db.User.findById(req.user, function (err, user) {
     // console.log(req.user)
     if (err) {console.log(err);}
@@ -46,6 +47,30 @@ function show(req, res) {
     });
   })
 }
+// function show(req, res) {
+//   db.User.findById(req.user, function (err, user) {
+//     // console.log(req.user)
+//     if (err) {console.log(err);}
+//     db.Listing.findById(req.params.listingId, function(err, foundListing) {
+//       // console.log(foundListing.uid );
+//
+//       if(err) { console.log('listingsController.show error', err); }
+//       res.json(foundListing);
+//     });
+//   })
+// }
+
+function show(req, res) {
+    db.Listing.findById(req.params.listingId, function(err, foundListing) {
+      if (err) {
+        console.log('Error', err);
+      }
+      db.User.findOne({ 'listings._id': req.params.listingId }, function(err, foundUser) {
+        // console.log(foundUser.listings);
+        res.json(foundListing);
+      })
+    });
+};
 
 function indexUnique(req, res) {
   db.User.findById(req.user, function (err, user) {
@@ -57,7 +82,6 @@ function indexUnique(req, res) {
       res.json(listings);
     });
   })
-=======
   console.log(req.body);
   db.User.findById(req.user, function (err, user) {
 
@@ -71,7 +95,6 @@ function indexUnique(req, res) {
     }
     res.json(pertinentListing);
   });
->>>>>>> f08ce977c2a63a5d2a91a4eae04f06363a5ab7c1:controllers/listingsController.js
 }
 
 function destroy(req, res) {
@@ -91,6 +114,11 @@ function destroy(req, res) {
       if(err) { console.log('saving altered listing failed'); }
       res.json(savedListing);
     });    
+}
+
+function destroy(req, res) {
+  db.Listing.findOneAndRemove({_id: req.params.listingId }, function(err, foundListing){
+    res.json(foundListing);
   });
 }
 
