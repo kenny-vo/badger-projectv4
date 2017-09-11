@@ -300,9 +300,11 @@ function ListingShowController ($http, $stateParams, $location) {
       method: 'DELETE',
       url: '/api/listings/'+ $stateParams.listingId
     }).then(function successCallback(json) {
+      console.log(json);
+      
       $location.path('/');
     }, function errorCallback(response) {
-      console.log('There was an error deleting the data', response);
+      console.error('There was an error deleting the data', response);
     });
   }
 
