@@ -26,7 +26,7 @@ mongoose.Promise = global.Promise;
 // connect to mongodb
 mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
   .then(() => {
-    console.log('Connected to database at ', new Date().toLocaleString());
+    console.log('Connected to database at', new Date().toLocaleString());
   })
   .catch((err) => {
     console.error('Error connecting to the database: ', err);
@@ -78,9 +78,6 @@ app.get('/api/users/:_id/listings', function (req, res) {
   User.findOne({'listings.id': req.params.listingId }, function (err, foundUser) {
     if(err) {console.log(err);}
     res.json(foundUser.listings);
-    for (let i = 0; i < foundUser.listings.length; i++) {
-      // console.log(foundUser.listings[i])
-    }
   });
 });
 
