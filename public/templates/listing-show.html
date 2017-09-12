@@ -50,11 +50,11 @@
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req1Response" placeholder="Budget Response" type="string" class="form-control input-md">
 
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-hide="listingShowCtrl.listing.req2 == null">
                       <span ng-hide="editing">{{listingShowCtrl.listing.req2}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req2Response" placeholder="Budget Response" type="string" class="form-control input-md">
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-hide="listingShowCtrl.listing.req2 == null">
                       <span ng-hide="editing">{{listingShowCtrl.listing.req3}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req3Response" placeholder="Budget Response" type="string" class="form-control input-md">
                     </li>

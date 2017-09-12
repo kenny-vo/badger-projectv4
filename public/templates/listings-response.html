@@ -30,16 +30,17 @@
           <input ng-show="editing" ng-model="listingShowCtrl.listing.location" type="text" class="form-control input-md">
 
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-hide="listingShowCtrl.listing.req2 == null">
           <span ng-hide="editing">{{listingShowCtrl.listing.req2}}</a></span>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-hide="listingShowCtrl.listing.req3 == null">
           <span ng-hide="editing">{{listingShowCtrl.listing.req3}}</a></span>
         </li>
       </div>
     </div>
     <div class="col-md-8 col-xs-12">
-      <div ng-repeat="bid in listingShowCtrl.listing.bids">
+      <div ng-hide="listingShowCtrl.listing.bids.length"> No Responses Yet.</div>
+      <div ng-repeat="bid in listingShowCtrl.listing.bids ">
         <div class="col-md-3 bid-columns">
           <div class="list-group form-inline">
             <li class="list-group-item">
@@ -54,11 +55,11 @@
               <h5 class='inline-header'>Requirements:</h5>
                 {{bid.req1Response}}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" ng-hide="bid.req2Response == null">
 
                 {{bid.req2Response}}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" ng-hide="bid.req3Response == null">
 
                 {{bid.req3Response}}
             </li>

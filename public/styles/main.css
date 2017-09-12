@@ -1,20 +1,18 @@
 body {
   color: #10645f;
-}
-
-*[role="form"] {
-    max-width: 530px;
-    padding: 15px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 0.3em;
-}
-
-*[role="form"] h2 {
-    margin-left: 5em;
-    margin-bottom: 1em;
+  font-size: 13px;
 }
 
 .bid-columns {
   padding: 0px;
+}
+
+.panel-body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.scroll {
+  height: 500px;
+  overflow-y: auto;
 }
