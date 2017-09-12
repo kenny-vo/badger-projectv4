@@ -16,7 +16,9 @@ function create(req, res) {
     if (err) {
       console.log('Error:', err);
     }
-    db.User.findOne({ 'listings._id': req.params.listingId }, function(err, foundUser) {
+    db.User.findOne({
+      'listings._id': req.params.listingId
+    }, function(err, foundUser) {
       // console.log(foundUser.listings);
       if (err) {
         console.log('Error: ', err);
@@ -25,11 +27,10 @@ function create(req, res) {
         // console.log(foundUser.listings[i]._id);
         if (foundUser.listings[i]._id == req.params.listingId) {
           db.User.findById(req.user, function(err, user) {
-            console.log(user.email)
-            console.log( 'found it! - ' + foundUser.listings[i].topic);
+            console.log('Found listing: ' + foundUser.listings[i].topic);
             var newBid = new db.Bid(req.body);
-              newBid.uid = user._id;
-              newBid.respondEmail = user.email;
+            newBid.uid = user._id;
+            newBid.respondEmail = user.email;
             var oldLength = foundUser.listings[i].bids.length;
             foundUser.listings[i].bids.set(oldLength, newBid);
             foundUser.save(function(err, savedListing) {
