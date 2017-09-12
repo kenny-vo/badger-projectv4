@@ -108,6 +108,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
     })
+    .state('listings-response', {
+      url: '/responses/:listingId',
+      templateUrl: 'templates/listings-response.html',
+      controller: 'ListingShowController',
+      controllerAs: 'listingShowCtrl'
+    })
     .state('bid', {
       url: '/listing/:listingId/response',
       templateUrl: 'templates/bid.html',
@@ -301,7 +307,7 @@ function ListingShowController ($http, $stateParams, $location) {
       url: '/api/listings/'+ $stateParams.listingId
     }).then(function successCallback(json) {
       console.log(json);
-      
+
       $location.path('/');
     }, function errorCallback(response) {
       console.error('There was an error deleting the data', response);

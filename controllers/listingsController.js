@@ -39,7 +39,6 @@ function create(req, res) {
 
 function show(req, res) {
   db.User.findById(req.user, function(err, user) {
-
     let pertinentListing = user.listings.find(function filter(element) {
       return element._id.toString() === req.params.listingId;
     });

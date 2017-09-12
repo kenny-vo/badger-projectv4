@@ -1,0 +1,70 @@
+<div class="container" style="margin-left: 20px;">
+  <div class="row">
+    <div class="col-md-4 col-xs-12">
+      <div class="list-group form-inline">
+        <li class="list-group-item">
+          <h4 class='inline-header'>Topic:</h4>
+          <span ng-hide="editing">{{listingShowCtrl.listing.topic}}</a></span>
+          <input ng-show="editing" ng-model="listingShowCtrl.listing.topic" type="text" class="form-control input-md">
+        </li>
+        <li class="list-group-item">
+          <h4 class='inline-header'>Description:</h4>
+          <span ng-hide="editing">{{listingShowCtrl.listing.description}}</a></span>
+          <input ng-show="editing" ng-model="listingShowCtrl.listing.description" type="text" class="form-control input-md">
+
+        </li>
+        <li class="list-group-item">
+          <h4 class='inline-header'>Budget:</h4>
+          <span ng-hide="editing">{{listingShowCtrl.listing.budget| currency : $ : 0}}</a></span>
+          <input ng-show="editing" ng-model="listingShowCtrl.listing.budget" type="text" class="form-control input-md">
+
+        </li>
+        <li class="list-group-item">
+          <h4 class='inline-header'>Location:</h4>
+          <span ng-hide="editing">{{listingShowCtrl.listing.location}}</a></span>
+          <input ng-show="editing" ng-model="listingShowCtrl.listing.location" type="text" class="form-control input-md">
+        </li>
+        <li class="list-group-item">
+          <h4 class='inline-header'>Requirements:</h4>
+          <span ng-hide="editing">{{listingShowCtrl.listing.req1 || 'None'}}</a></span>
+          <input ng-show="editing" ng-model="listingShowCtrl.listing.location" type="text" class="form-control input-md">
+
+        </li>
+        <li class="list-group-item">
+          <span ng-hide="editing">{{listingShowCtrl.listing.req2}}</a></span>
+        </li>
+        <li class="list-group-item">
+          <span ng-hide="editing">{{listingShowCtrl.listing.req3}}</a></span>
+        </li>
+      </div>
+    </div>
+    <div class="col-md-8 col-xs-12">
+      <div ng-repeat="bid in listingShowCtrl.listing.bids">
+        <div class="col-md-3 bid-columns">
+          <div class="list-group form-inline">
+            <li class="list-group-item">
+              <h5 class='inline-header'>Response:</h5>
+                {{bid.response}}
+            </li>
+            <li class="list-group-item">
+              <h5 class='inline-header'>Budget Response:</h5>
+                {{bid.budgetResponse}}
+            </li>
+            <li class="list-group-item">
+              <h5 class='inline-header'>Requirements:</h5>
+                {{bid.req1Response}}
+            </li>
+            <li class="list-group-item">
+
+                {{bid.req2Response}}
+            </li>
+            <li class="list-group-item">
+
+                {{bid.req3Response}}
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
