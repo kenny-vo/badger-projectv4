@@ -44,7 +44,7 @@ var Listing = require('./models/listing');
  app.get('/api', controllers.api.index);
 
  // Listings
- app.get('/api/listings', auth.ensureAuthenticated, controllers.listings.index);
+ app.get('/api/listings',controllers.listings.index);
  app.get('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.show);
  app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
  app.delete('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.destroy);
