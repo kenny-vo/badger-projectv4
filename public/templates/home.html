@@ -1,11 +1,10 @@
 <div class="container">
   <h1 class="text-center">Current Requests</h1>
   <br>
-  <input type="text" class="form-control col-md-8 " ng-model="searchText" placeholder="Search Listings" style="margin-bottom: 15px;">
+  <input type="text" class="form-control col-md-10 " ng-model="searchText" placeholder="Search Listings" style="margin-bottom: 15px;">
   <div ng-repeat="listing in home.listings | orderBy: 'topic' | filter: searchText" class="row">
     <div class="col-md-10 col-md-offset-1 ">
       <div class="panel-body">
-        <!-- <div class='row'> -->
         <!-- <div class="col-md-2 col-xs-12 thumbnail">
               <img src="./images/placeholder.png" alt="listing image">
             </div> -->
