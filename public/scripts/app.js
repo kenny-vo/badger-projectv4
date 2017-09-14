@@ -96,6 +96,15 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
         loginRequired: loginRequired
       }
     })
+    .state('profile-listings', {
+      url: '/your-listings',
+      templateUrl: 'templates/profile-listings.html',
+      controller: 'ProfileController',
+      controllerAs: 'profile',
+      resolve: {
+        loginRequired: loginRequired
+      }
+    })
     .state('create-listing', {
       url: '/create-listing',
       templateUrl: 'templates/create-listing.html',
