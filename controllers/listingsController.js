@@ -13,6 +13,7 @@ function index(req, res) {
 
     db.Listing.find({}, function(err, allListings) {
       res.json(allListings);
+      console.log("here")
     });
   })
 }
@@ -36,19 +37,27 @@ function create(req, res) {
     });
   });
 };
-
 function show(req, res) {
-  db.User.findById(req.user, function(err, user) {
-    let pertinentListing = user.listings.find(function filter(element) {
-      return element._id.toString() === req.params.listingId;
-    });
+    db.Listing.findById(req.params.listingId, function(err, foundListing) {
+      if(err) { console.log('listingsController.show error', err); }
+     res.json(foundListing);
 
-    if (err) {
-      console.log('listingsController.show error', err);
-    }
-    res.json(pertinentListing);
   });
 }
+
+
+// function show(req, res) {
+//   db.User.findById(req.user, function(err, user) {
+//     let pertinentListing = user.listings.find(function filter(element) {
+//       return element._id.toString() === req.params.listingId;
+//     });
+//
+//     if (err) {
+//       console.log('listingsController.show error', err);
+//     }
+//     res.json(pertinentListing);
+//   });
+// }
 
 function destroy(req, res) {
   db.Listing.findOneAndRemove({

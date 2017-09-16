@@ -57,10 +57,6 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeController',
       controllerAs: 'home'
     })
-    .state('about', {
-      url: '/about',
-      templateUrl: 'templates/about.html',
-    })
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
@@ -123,12 +119,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
     })
-    .state('bid', {
-      url: '/listing/:listingId/response',
-      templateUrl: 'templates/bid.html',
-      controller: 'ListingShowController',
-      controllerAs: 'listingShowCtrl'
-    });
+    .state('bid-responses', {
+      url: '/bid-responses/',
+      templateUrl: 'templates/bid-responses.html',
+      controller: 'ProfileController',
+      controllerAs: 'profile'
+    })
 
     function skipIfLoggedIn($q, $auth) {
       var deferred = $q.defer();
