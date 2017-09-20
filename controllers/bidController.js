@@ -11,6 +11,29 @@ function index(req, res) {
   });
 }
 
+
+// function index(req, res) {
+//   db.User.find({}, function(err, allUsers) {
+//     if (err) {
+//       res.json(err);
+//     }
+//     for (let i = 0; i < allUsers.length; i++) {
+//       let listings = allUsers[i].listings
+//       for (let j = 0; j < listings.length; j++) {
+//         // console.log(listings[j].bids)
+//         db.User.findById(req.user, function(err, user) {
+//           console.log(user._id);
+//           console.log(typeof(req.user));
+//         if (listings[j].bids.uid === user._id.toString()){
+//           console.log('found' + listings[j]);
+//         }
+//       })
+//       }
+//     }
+//     res.json(allUsers);
+//   })
+// }
+
 function create(req, res) {
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
     if (err) {

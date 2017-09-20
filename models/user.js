@@ -9,8 +9,8 @@ var userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String, select: false },
   displayName: String,
-  username: { type: String },
-  picture: { type: String },
+  username: String,
+  picture: String,
   listings: [Listing.schema]
 });
 

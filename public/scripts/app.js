@@ -236,7 +236,7 @@ function ProfileController ($location, Account, $http) {
 
   $http({
     method: 'GET',
-    url: '/api/listings'
+    url: '/api/your-responses'
   }).then(function successCallback(response) {
     vm.listings = response.data;
   }, function errorCallback(response) {
