@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcryptjs'),
-    Listing = require('./listing');
+    Listing = require('./listing'),
+    Bids = require('./bid');
 
 var userSchema = new Schema({
   created: { type: Date },
@@ -11,7 +12,8 @@ var userSchema = new Schema({
   displayName: String,
   username: String,
   picture: String,
-  listings: [Listing.schema]
+  listings: [Listing.schema],
+  myBids: [Bids.schema]
 });
 
 userSchema.pre('save', function (next) {

@@ -57,29 +57,14 @@ app.get('/api/users/:listingId/bids', auth.ensureAuthenticated, controllers.bids
 // app.get('/api/your-responses', auth.ensureAuthenticated, controllers.bids.index);
 app.post('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.create);
 
-
 //  Profile
 
 app.get('/api/users', function (req, res) {
-  User.find({}, function (err, user) {
-    let x = '2500'
-    User.findOne({'listings.budget': x }, {'listings.$': 2500}, function (err, found) {
-      console.log(found)
-      if(found) {
-        console.log(users.listings[0].name);
-      }
-    });
-    res.json(user);
+  User.find({}, function (err, allUsers) {
+    res.json(allUsers);
   });
 
 });
-
-// app.get('/api/users', function (req, res) {
-//   User.findOne({'budget': "2500" }, function (err, user) {
-//     console.log(user)
-//     res.json(user);
-//   });
-// });
 
 app.get('/api/users/:_id', function (req, res) {
   User.findById(req.params._id, function (err, foundUser) {
