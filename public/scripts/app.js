@@ -243,6 +243,36 @@ function ProfileController ($location, Account, $http) {
     console.log('Error getting data', response);
   });
 
+  vm.deleteListing = function (listing) {
+
+    console.log('hello from delete');
+    
+    // $http({
+    //   method: 'DELETE',
+    //   url: '/api/listings/'+ $stateParams.listingId
+    // }).then(function successCallback(json) {
+    //   console.log(json);
+
+    //   $location.path('/');
+    // }, function errorCallback(response) {
+    //   console.error('There was an error deleting the data', response);
+    // });
+  }
+
+  vm.editListing = function (listing) {
+
+    console.log('hello from edit');
+
+    // $http({
+    //   method: 'PUT',
+    //   url: '/api/listings/'+$stateParams.listingId,
+    //   data: listing
+    // }).then(function successCallback(json) {
+    // }, function errorCallback(response) {
+    //   console.log('There was an error editing the data', response);
+    // });
+  }
+    
   vm.updateProfile = function() {
     Account
       .updateProfile(vm.new_profile)
@@ -293,31 +323,6 @@ function ListingShowController ($http, $stateParams, $location) {
   }, function errorCallback(response) {
     console.log('There was an error getting the data', response);
   });
-
-  vm.editListing = function (listing) {
-
-    $http({
-      method: 'PUT',
-      url: '/api/listings/'+$stateParams.listingId,
-      data: listing
-    }).then(function successCallback(json) {
-    }, function errorCallback(response) {
-      console.log('There was an error editing the data', response);
-    });
-  }
-
-  vm.deleteListing = function (listing) {
-    $http({
-      method: 'DELETE',
-      url: '/api/listings/'+ $stateParams.listingId
-    }).then(function successCallback(json) {
-      console.log(json);
-
-      $location.path('/');
-    }, function errorCallback(response) {
-      console.error('There was an error deleting the data', response);
-    });
-  }
 
   vm.createBid = function () {
     $http({
