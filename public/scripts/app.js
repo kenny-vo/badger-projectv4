@@ -234,6 +234,7 @@ function ProfileController ($location, Account, $http) {
   var vm = this;
   vm.new_profile = {}; // form data
 
+  //get my bids.  TODO: refactor to look locally in Account
   $http({
     method: 'GET',
     url: '/api/your-responses'
@@ -287,6 +288,7 @@ function ListingsIndexController ($http, $location) {
   var vm = this;
   vm.newListing = {};
 
+  //get all listings
   $http({
     method: 'GET',
     url: '/api/listings'
@@ -315,6 +317,7 @@ ListingShowController.$inject = ['$http', '$stateParams', '$location'];
 function ListingShowController ($http, $stateParams, $location) {
   var vm = this;
 
+  //get one listing.  TODO: refactor to look locally in Account
   $http({
     method: 'GET',
     url: '/api/listings/'+$stateParams.listingId
