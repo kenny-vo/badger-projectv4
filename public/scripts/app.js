@@ -344,29 +344,49 @@ function Account($http, $q, $auth) {
   var self = this;
   self.user = null;
 
-  self.signup = signup;
-  self.login = login;
-  self.logout = logout;
   self.currentUser = currentUser;
   self.getProfile = getProfile;
+  self.login = login;
+  self.logout = logout;
+  self.signup = signup;
   self.updateProfile = updateProfile;
 
-  function signup(userData) {
-    return (
-      $auth
-        .signup(userData) // signup (https://github.com/sahat/satellizer#authsignupuser-options)
-        .then(
-          function onSuccess(response) {
-            $auth.setToken(response.data.token); // set token (https://github.com/sahat/satellizer#authsettokentoken)
-          },
+  //method definitions
 
-          function onError(error) {
-            console.error(error);
-            alert("Email is already taken");
+  /**
+   * @description Gets the current user data.  First checks self.user, then checks for a 
+   *    no valid authentication token, then asks the server for user data.  Since the 
+   *    authentication token is stored in LocalStorage (by $auth.setToken), authentication 
+   *    can persist if the browser is closed or refreshed.  
+   * @returns {(object|null|promise)} Returns object if self.user is truthy (i.e. the user 
+   *    is logged in and the browser hasn't been closed or refreshed), null if there is no 
+   *    valid authentication token, and promise when there is a token but the user object 
+   *    isn't truthy (e.g. after broser close and reopen [or refresh] but no logout).
+  */
+  function currentUser() {
+    if ( self.user ) { return self.user; }
+    if ( !$auth.isAuthenticated() ) { return null; }
 
-          }
-        )
-    );
+    var deferred = $q.defer();
+    getProfile().then(
+      function onSuccess(response) {
+        self.user = response.data;
+        deferred.resolve(self.user);
+      },
+
+      function onError() {
+        $auth.logout();
+        self.user = null;
+        deferred.reject();
+      }
+    )
+    self.user = promise = deferred.promise;
+    return promise;
+
+  }
+
+  function getProfile() {
+    return $http.get('/api/me');
   }
 
   function login(userData) {
@@ -396,30 +416,22 @@ function Account($http, $q, $auth) {
     );
   }
 
-  function currentUser() {
-    if ( self.user ) { return self.user; }
-    if ( !$auth.isAuthenticated() ) { return null; }
+  function signup(userData) {
+    return (
+      $auth
+        .signup(userData) // signup (https://github.com/sahat/satellizer#authsignupuser-options)
+        .then(
+          function onSuccess(response) {
+            $auth.setToken(response.data.token); // set token (https://github.com/sahat/satellizer#authsettokentoken)
+          },
 
-    var deferred = $q.defer();
-    getProfile().then(
-      function onSuccess(response) {
-        self.user = response.data;
-        deferred.resolve(self.user);
-      },
+          function onError(error) {
+            console.error(error);
+            alert("Email is already taken");
 
-      function onError() {
-        $auth.logout();
-        self.user = null;
-        deferred.reject();
-      }
-    )
-    self.user = promise = deferred.promise;
-    return promise;
-
-  }
-
-  function getProfile() {
-    return $http.get('/api/me');
+          }
+        )
+    );
   }
 
   function updateProfile(profileData) {
