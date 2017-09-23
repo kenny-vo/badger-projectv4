@@ -62,8 +62,13 @@
               </div>
               <div class='panel-footer'>
                 <div class='panel-footer'>
-                  <button class="btn btn-info" ng-hide="responding" ng-click="responding = true" ng-disabled="main.currentUser()._id === listingShowCtrl.listing.uid"> Respond</button>
-                  <button class="btn btn-success"ng-show="responding" ng-click="listingShowCtrl.createBid(); responding = false"> Send Response</button>
+                  <div ng-if="main.currentUser()._id === listingShowCtrl.listing.uid">
+                    You can't bid on your own requests.
+                  </div>
+                  <div ng-if="main.currentUser()._id !== listingShowCtrl.listing.uid">
+                    <button class="btn btn-info" ng-hide="responding" ng-click="responding = true"> Respond</button>
+                    <button class="btn btn-success"ng-show="responding" ng-click="listingShowCtrl.createBid(); responding = false"> Send Response</button>
+                  </div>
                 </div>
               </div>
             </div>
