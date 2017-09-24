@@ -160,6 +160,10 @@ function MainController (Account) {
    return Account.currentUser();
   }
 
+  vm.test = function test() {
+    Account.test();
+  }
+
 }
 
 HomeController.$inject = ["$http", '$location'];
@@ -229,10 +233,14 @@ function LogoutController ($location, Account) {
 }
 
 
-ProfileController.$inject = ["$location", "Account", "$http"]; // minification protection
-function ProfileController ($location, Account, $http) {
+ProfileController.$inject = ["Account", "$http", "$location", "$scope"]; // minification protection
+function ProfileController (Account, $http, $location, $scope) {
   var vm = this;
   vm.new_profile = {}; // form data
+
+  $scope.$on('account:updateListings',function(data) {
+    console.log('hell yeah');
+  });
 
   //get my bids.  TODO: refactor to look locally in Account
   $http({
@@ -247,6 +255,8 @@ function ProfileController ($location, Account, $http) {
   vm.deleteListing = function (listing) {
 
     console.log('hello from delete');
+
+    $scope.$emit('hey');
     
     // $http({
     //   method: 'DELETE',
@@ -347,8 +357,10 @@ function ListingShowController ($http, $stateParams, $location) {
 // Services //
 //////////////
 
-Account.$inject = ["$http", "$q", "$auth"]; // minification protection
-function Account($http, $q, $auth) {
+
+//inject $rootScope so we can alert the controllers about data updates
+Account.$inject = ["$auth", "$http", "$q", "$rootScope"]; // minification protection
+function Account($auth, $http, $q, $rootScope) {
   var self = this;
   self.user = null;
 
@@ -357,6 +369,7 @@ function Account($http, $q, $auth) {
   self.login = login;
   self.logout = logout;
   self.signup = signup;
+  self.test = test;
   self.updateProfile = updateProfile;
 
   //method definitions
@@ -441,6 +454,14 @@ function Account($http, $q, $auth) {
         )
     );
   }
+
+  function test() {
+    $rootScope.$broadcast('account:updateListings');
+  }
+
+  $rootScope.$on('hey',function name(params) {
+    console.log('emit received');
+  });
 
   function updateProfile(profileData) {
     return (
