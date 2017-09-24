@@ -293,8 +293,8 @@ function ProfileController (Account, $http, $location, $scope) {
   };
 }
 
-ListingsIndexController.$inject = ['$http', '$location'];
-function ListingsIndexController ($http, $location) {
+ListingsIndexController.$inject = ['Account','$http', '$location'];
+function ListingsIndexController (Account, $http, $location) {
   var vm = this;
   vm.newListing = {};
 
@@ -315,6 +315,8 @@ function ListingsIndexController ($http, $location) {
       data: vm.newListing,
     }).then(function successCallback(response) {
       vm.listings.push(response.data);
+      //add it to the local model
+      Account.addListing(response.data);
       $location.path('/');
     }, function errorCallback(response) {
       console.log('Error posting data', response);
@@ -364,6 +366,7 @@ function Account($auth, $http, $q, $rootScope) {
   var self = this;
   self.user = null;
 
+  self.addListing = addListing;
   self.currentUser = currentUser;
   self.getProfile = getProfile;
   self.login = login;
@@ -373,6 +376,10 @@ function Account($auth, $http, $q, $rootScope) {
   self.updateProfile = updateProfile;
 
   //method definitions
+
+  function addListing(listingData) {
+    self.user.listings.push(listingData);
+  }
 
   /**
    * @description Gets the current user data.  First checks self.user, then checks for a 

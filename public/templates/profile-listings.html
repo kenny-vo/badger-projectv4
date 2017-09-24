@@ -9,7 +9,7 @@
       <div class="col-md-10 col-xs-12 ">
         <ul class="list-group form-inline">
           <li class="list-group-item">
-            <h3>{{listing.topic}}/h3>
+            <h3>{{listing.topic}}</h3>
             <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
             <p class="card-text">{{listing.description}}</p>
             <p><a ui-sref="listings-response({listingId: listing._id})">Responses: {{listing.bids.length}}</a></p>
