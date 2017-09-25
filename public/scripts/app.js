@@ -253,7 +253,6 @@ function ProfileController (Account, $http, $location, $scope) {
       method: 'DELETE',
       url: '/api/listings/'+ listing._id
     }).then(function successCallback(json) {
-      console.log(json);
       $scope.$emit('profile:deleteListing', listing._id);
       
       $location.path('/your-listings');

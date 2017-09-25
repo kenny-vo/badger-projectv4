@@ -59,9 +59,6 @@ function show(req, res) {
 }
 
 function destroy(req, res) {
-  console.log('hellp from lising/delete');
-  console.log(req.params);
-
   db.Listing.findOneAndRemove({
     _id: req.params.listingId
   }, function(err, foundListing) {})
