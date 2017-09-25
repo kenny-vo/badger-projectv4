@@ -107,6 +107,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'ListingsIndexController',
       controllerAs: 'listingsIndexCtrl'
     })
+    .state('edit-listing', {
+      url: '/edit-listing/:listingId',
+      templateUrl: 'templates/edit-listing.html',
+      controller: 'ListingsIndexController',
+      controllerAs: 'listingsIndexCtrl'
+    })
     .state('listing-detail', {
       url: '/listing/:listingId',
       templateUrl: 'templates/listing-show.html',
@@ -261,18 +267,8 @@ function ProfileController (Account, $http, $location, $scope) {
     });//end then
   };
 
-  vm.editListing = function (listing) {
-
-    console.log('hello from edit');
-
-    // $http({
-    //   method: 'PUT',
-    //   url: '/api/listings/'+$stateParams.listingId,
-    //   data: listing
-    // }).then(function successCallback(json) {
-    // }, function errorCallback(response) {
-    //   console.log('There was an error editing the data', response);
-    // });
+  vm.goToEditListing = function(listing) {
+    $location.path(`/edit-listing/${listing._id}`);
   }
     
   vm.updateProfile = function() {
@@ -313,6 +309,20 @@ function ListingsIndexController (Account, $http, $location) {
       console.log('Error posting data', response);
     });
   };
+
+  vm.editListing = function (listing) {
+    
+        console.log('hello from edit');
+    
+        // $http({
+        //   method: 'PUT',
+        //   url: '/api/listings/'+$stateParams.listingId,
+        //   data: listing
+        // }).then(function successCallback(json) {
+        // }, function errorCallback(response) {
+        //   console.log('There was an error editing the data', response);
+        // });
+      }
 
 };
 
@@ -421,9 +431,9 @@ function Account($auth, $http, $q, $rootScope) {
    * @param {string} listingId - the id of the listing to remove.  Corresponds to _id.
    * @returns {undefined}
   */
-  function deleteListing(listingData) {
+  function deleteListing(listingId) {
     self.user.listings = self.user.listings.filter(function(element) {
-      return element._id !== listingData;
+      return element._id !== listingId;
     });
   }
 
