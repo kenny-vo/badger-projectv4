@@ -160,10 +160,6 @@ function MainController (Account) {
    return Account.currentUser();
   }
 
-  vm.test = function test() {
-    Account.test();
-  }
-
 }
 
 HomeController.$inject = ["$http", '$location'];
@@ -232,7 +228,7 @@ function LogoutController ($location, Account) {
     });
 }
 
-
+//need $scope to emit events to Account controller
 ProfileController.$inject = ["Account", "$http", "$location", "$scope"]; // minification protection
 function ProfileController (Account, $http, $location, $scope) {
   var vm = this;
@@ -253,22 +249,18 @@ function ProfileController (Account, $http, $location, $scope) {
   });
 
   vm.deleteListing = function (listing) {
-
-    console.log('hello from delete');
-
-    $scope.$emit('hey');
-    
-    // $http({
-    //   method: 'DELETE',
-    //   url: '/api/listings/'+ $stateParams.listingId
-    // }).then(function successCallback(json) {
-    //   console.log(json);
-
-    //   $location.path('/');
-    // }, function errorCallback(response) {
-    //   console.error('There was an error deleting the data', response);
-    // });
-  }
+    $http({
+      method: 'DELETE',
+      url: '/api/listings/'+ listing._id
+    }).then(function successCallback(json) {
+      console.log(json);
+      $scope.$emit('profile:deleteListing', listing._id);
+      
+      $location.path('/your-listings');
+    }, function errorCallback(response) {
+      console.error('There was an error deleting the data', response);
+    });//end then
+  };
 
   vm.editListing = function (listing) {
 
@@ -368,15 +360,27 @@ function Account($auth, $http, $q, $rootScope) {
 
   self.addListing = addListing;
   self.currentUser = currentUser;
+  self.deleteListing = deleteListing;
   self.getProfile = getProfile;
   self.login = login;
   self.logout = logout;
   self.signup = signup;
-  self.test = test;
   self.updateProfile = updateProfile;
+
+  //listeners
+
+  $rootScope.$on('profile:deleteListing',function(event, args) {
+    deleteListing(args);
+  });
+
 
   //method definitions
 
+  /**
+   * @description Adds a listing to the local model only.
+   * @param {object} listingData - All of the data for the listing.
+   * @returns {undefined}
+  */
   function addListing(listingData) {
     self.user.listings.push(listingData);
   }
@@ -411,6 +415,17 @@ function Account($auth, $http, $q, $rootScope) {
     self.user = promise = deferred.promise;
     return promise;
 
+  }
+
+  /**
+   * @description Deletes a listing from the local model only.
+   * @param {string} listingId - the id of the listing to remove.  Corresponds to _id.
+   * @returns {undefined}
+  */
+  function deleteListing(listingData) {
+    self.user.listings = self.user.listings.filter(function(element) {
+      return element._id !== listingData;
+    });
   }
 
   function getProfile() {
@@ -461,14 +476,6 @@ function Account($auth, $http, $q, $rootScope) {
         )
     );
   }
-
-  function test() {
-    $rootScope.$broadcast('account:updateListings');
-  }
-
-  $rootScope.$on('hey',function name(params) {
-    console.log('emit received');
-  });
 
   function updateProfile(profileData) {
     return (
