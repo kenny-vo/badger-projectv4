@@ -110,8 +110,8 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('edit-listing', {
       url: '/edit-listing/:listingId',
       templateUrl: 'templates/edit-listing.html',
-      controller: 'ListingsIndexController',
-      controllerAs: 'listingsIndexCtrl'
+      controller: 'ListingShowController',
+      controllerAs: 'listingShowCtrl'
     })
     .state('listing-detail', {
       url: '/listing/:listingId',
@@ -268,6 +268,8 @@ function ProfileController (Account, $http, $location, $scope) {
   };
 
   vm.goToEditListing = function(listing) {
+    //send notice to Account service to populate data to ListingShowController
+    $scope.$emit('profile:goToEditListing', listing._id);
     $location.path(`/edit-listing/${listing._id}`);
   }
     
@@ -283,6 +285,7 @@ function ProfileController (Account, $http, $location, $scope) {
 ListingsIndexController.$inject = ['Account','$http', '$location'];
 function ListingsIndexController (Account, $http, $location) {
   var vm = this;
+  vm.editedListing = {};
   vm.newListing = {};
 
   //get all listings
@@ -310,25 +313,16 @@ function ListingsIndexController (Account, $http, $location) {
     });
   };
 
-  vm.editListing = function (listing) {
-    
-        console.log('hello from edit');
-    
-        // $http({
-        //   method: 'PUT',
-        //   url: '/api/listings/'+$stateParams.listingId,
-        //   data: listing
-        // }).then(function successCallback(json) {
-        // }, function errorCallback(response) {
-        //   console.log('There was an error editing the data', response);
-        // });
-      }
-
 };
 
-ListingShowController.$inject = ['$http', '$stateParams', '$location'];
-function ListingShowController ($http, $stateParams, $location) {
+ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams"];
+function ListingShowController (Account, $http, $location, $scope, $stateParams) {
   var vm = this;
+  vm.editedListing = {};
+
+  $scope.$on('account:loadDataToBeEdited', function(event, foundListing) {
+    vm.editedListing = foundListing;
+  });
 
   //get one listing.  TODO: refactor to look locally in Account
   $http({
@@ -351,7 +345,20 @@ function ListingShowController ($http, $stateParams, $location) {
     }, function errorCallback(response) {
       console.log('There was an error creating the data', response);
     });
-  }
+  };
+
+  vm.editListing = function() {
+    $http({
+      method: 'PUT',
+      url: '/api/listings/'+$stateParams.listingId,
+      data: vm.editedListing
+    }).then(function successCallback(json) {
+       Account.replaceListing(vm.editedListing);
+       $location.path('/your-listings');
+    }, function errorCallback(response) {
+      console.log('There was an error editing the data', response);
+    });
+  };
 
 };
 
@@ -362,24 +369,45 @@ function ListingShowController ($http, $stateParams, $location) {
 
 
 //inject $rootScope so we can alert the controllers about data updates
-Account.$inject = ["$auth", "$http", "$q", "$rootScope"]; // minification protection
-function Account($auth, $http, $q, $rootScope) {
+Account.$inject = ["$auth", "$http", "$q", "$rootScope", "$timeout"]; // minification protection
+function Account($auth, $http, $q, $rootScope, $timeout) {
   var self = this;
   self.user = null;
 
   self.addListing = addListing;
   self.currentUser = currentUser;
   self.deleteListing = deleteListing;
+  self.getOneListing = getOneListing;
   self.getProfile = getProfile;
   self.login = login;
   self.logout = logout;
+  self.replaceListing = replaceListing;
   self.signup = signup;
   self.updateProfile = updateProfile;
 
   //listeners
 
-  $rootScope.$on('profile:deleteListing',function(event, args) {
-    deleteListing(args);
+  $rootScope.$on('profile:deleteListing',function(event, listingId) {
+    deleteListing(listingId);
+  });
+
+  /**
+   * Calls getOneListing on the listing id from the profile controller.  If you find it
+   * send the listing to ListingsIndexController.
+  */
+  $rootScope.$on('profile:goToEditListing', function(event, listingId) {
+    var dataToSend = getOneListing(listingId);
+
+    console.log(dataToSend);
+  
+    if (dataToSend) {
+      console.log('in if before broadcast');
+
+      //give ListingShowController time to load.  Things don't work if we don't.
+      $timeout(function() {
+        $rootScope.$broadcast('account:loadDataToBeEdited', dataToSend);
+      }, 500);
+    }
   });
 
 
@@ -437,6 +465,24 @@ function Account($auth, $http, $q, $rootScope) {
     });
   }
 
+  /**
+   * @description Gets a listing from the local model only.
+   * @param {string} listingId - the id of the listing to get.  Corresponds to _id.
+   * @returns {object|error}
+  */
+  function getOneListing(listingId) {
+    var result = self.user.listings.find(function(element) {
+      return element._id === listingId;
+    });
+    
+    if (result) {
+      return result;
+    } else {
+      console.error(`Can't find listing with id ${listingId}`);
+      console.log(self.user.listings);
+    }
+  }
+
   function getProfile() {
     return $http.get('/api/me');
   }
@@ -466,6 +512,17 @@ function Account($auth, $http, $q, $rootScope) {
           self.user = null;
         })
     );
+  }
+
+  /**
+   * @description Removes the old listing and adds the new one.  Only to the local model.
+   * @param {object} listingData - The new listing.
+   * @returns {undefined}
+  */
+  function replaceListing(listingData) {
+    deleteListing(listingData._id);
+    addListing(listingData);
+    console.log(self.user.listings);
   }
 
   function signup(userData) {

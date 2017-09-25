@@ -85,6 +85,8 @@ function destroy(req, res) {
 
 function update(req, res) {
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
+    console.log('in update ' + new Date().toLocaleString());
+    console.log(req.body);
     if (err) {
       console.log('listingsController.update error', err);
     }
