@@ -25,22 +25,22 @@ mongoose.Promise = global.Promise;
 
 // connect to mongodb
 // production, mLabs
-mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{useMongoClient: true})
-  .then(() => {
-    console.log('Connected to database at', new Date().toLocaleString());
-  })
-  .catch((err) => {
-    console.error('Error connecting to the database: ', err);
-  });
-
-// local testing
-// mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
+// mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{useMongoClient: true})
 //   .then(() => {
 //     console.log('Connected to database at', new Date().toLocaleString());
 //   })
 //   .catch((err) => {
 //     console.error('Error connecting to the database: ', err);
 //   });
+
+// local testing
+mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
+  .then(() => {
+    console.log('Connected to database at', new Date().toLocaleString());
+  })
+  .catch((err) => {
+    console.error('Error connecting to the database: ', err);
+  });
 
 // require User and Post models
 var User = require('./models/user');
