@@ -57,10 +57,6 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeController',
       controllerAs: 'home'
     })
-    .state('about', {
-      url: '/about',
-      templateUrl: 'templates/about.html',
-    })
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
@@ -96,11 +92,26 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
         loginRequired: loginRequired
       }
     })
+    .state('profile-listings', {
+      url: '/your-listings',
+      templateUrl: 'templates/profile-listings.html',
+      controller: 'ProfileController',
+      controllerAs: 'profile',
+      resolve: {
+        loginRequired: loginRequired
+      }
+    })
     .state('create-listing', {
       url: '/create-listing',
       templateUrl: 'templates/create-listing.html',
       controller: 'ListingsIndexController',
       controllerAs: 'listingsIndexCtrl'
+    })
+    .state('edit-listing', {
+      url: '/edit-listing/:listingId',
+      templateUrl: 'templates/edit-listing.html',
+      controller: 'ListingShowController',
+      controllerAs: 'listingShowCtrl'
     })
     .state('listing-detail', {
       url: '/listing/:listingId',
@@ -114,12 +125,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
     })
-    .state('bid', {
-      url: '/listing/:listingId/response',
-      templateUrl: 'templates/bid.html',
-      controller: 'ListingShowController',
-      controllerAs: 'listingShowCtrl'
-    });
+    .state('bid-responses', {
+      url: '/bid-responses/',
+      templateUrl: 'templates/bid-responses.html',
+      controller: 'ProfileController',
+      controllerAs: 'profile'
+    })
 
     function skipIfLoggedIn($q, $auth) {
       var deferred = $q.defer();
@@ -223,21 +234,45 @@ function LogoutController ($location, Account) {
     });
 }
 
-
-ProfileController.$inject = ["$location", "Account", "$http"]; // minification protection
-function ProfileController ($location, Account, $http) {
+//need $scope to emit events to Account controller
+ProfileController.$inject = ["Account", "$http", "$location", "$scope"]; // minification protection
+function ProfileController (Account, $http, $location, $scope) {
   var vm = this;
   vm.new_profile = {}; // form data
 
+  $scope.$on('account:updateListings',function(data) {
+    console.log('hell yeah');
+  });
+
+  //get my bids.  TODO: refactor to look locally in Account
   $http({
     method: 'GET',
-    url: '/api/listings'
+    url: '/api/your-responses'
   }).then(function successCallback(response) {
     vm.listings = response.data;
   }, function errorCallback(response) {
     console.log('Error getting data', response);
   });
 
+  vm.deleteListing = function (listing) {
+    $http({
+      method: 'DELETE',
+      url: '/api/listings/'+ listing._id
+    }).then(function successCallback(json) {
+      $scope.$emit('profile:deleteListing', listing._id);
+      
+      $location.path('/your-listings');
+    }, function errorCallback(response) {
+      console.error('There was an error deleting the data', response);
+    });//end then
+  };
+
+  vm.goToEditListing = function(listing) {
+    //send notice to Account service to populate data to ListingShowController
+    $scope.$emit('profile:goToEditListing', listing._id);
+    $location.path(`/edit-listing/${listing._id}`);
+  }
+    
   vm.updateProfile = function() {
     Account
       .updateProfile(vm.new_profile)
@@ -247,11 +282,13 @@ function ProfileController ($location, Account, $http) {
   };
 }
 
-ListingsIndexController.$inject = ['$http', '$location'];
-function ListingsIndexController ($http, $location) {
+ListingsIndexController.$inject = ['Account','$http', '$location'];
+function ListingsIndexController (Account, $http, $location) {
   var vm = this;
+  vm.editedListing = {};
   vm.newListing = {};
 
+  //get all listings
   $http({
     method: 'GET',
     url: '/api/listings'
@@ -268,6 +305,8 @@ function ListingsIndexController ($http, $location) {
       data: vm.newListing,
     }).then(function successCallback(response) {
       vm.listings.push(response.data);
+      //add it to the local model
+      Account.addListing(response.data);
       $location.path('/');
     }, function errorCallback(response) {
       console.log('Error posting data', response);
@@ -276,10 +315,16 @@ function ListingsIndexController ($http, $location) {
 
 };
 
-ListingShowController.$inject = ['$http', '$stateParams', '$location'];
-function ListingShowController ($http, $stateParams, $location) {
+ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams"];
+function ListingShowController (Account, $http, $location, $scope, $stateParams) {
   var vm = this;
+  vm.editedListing = {};
 
+  $scope.$on('account:loadDataToBeEdited', function(event, foundListing) {
+    vm.editedListing = foundListing;
+  });
+
+  //get one listing.  TODO: refactor to look locally in Account
   $http({
     method: 'GET',
     url: '/api/listings/'+$stateParams.listingId
@@ -289,43 +334,31 @@ function ListingShowController ($http, $stateParams, $location) {
     console.log('There was an error getting the data', response);
   });
 
-  vm.editListing = function (listing) {
+  vm.createBid = function () {
+    $http({
+      method: 'POST',
+      url: '/api/listings/'+ $stateParams.listingId + '/bids',
+      data: vm.newBid
+    }).then(function successCallback(json) {
+      vm.listing.bids.push(json.data);
+      vm.newBid = {};
+    }, function errorCallback(response) {
+      console.log('There was an error creating the data', response);
+    });
+  };
 
+  vm.editListing = function() {
     $http({
       method: 'PUT',
       url: '/api/listings/'+$stateParams.listingId,
-      data: listing
+      data: vm.editedListing
     }).then(function successCallback(json) {
+       Account.replaceListing(vm.editedListing);
+       $location.path('/your-listings');
     }, function errorCallback(response) {
       console.log('There was an error editing the data', response);
     });
-  }
-
-  vm.deleteListing = function (listing) {
-    $http({
-      method: 'DELETE',
-      url: '/api/listings/'+ $stateParams.listingId
-    }).then(function successCallback(json) {
-      console.log(json);
-
-      $location.path('/');
-    }, function errorCallback(response) {
-      console.error('There was an error deleting the data', response);
-    });
-  }
-
-  vm.createBid = function () {
-  $http({
-    method: 'POST',
-    url: '/api/listings/'+ $stateParams.listingId + '/bids',
-    data: vm.newBid
-  }).then(function successCallback(json) {
-    vm.listing.bids.push(json.data);
-    vm.newBid = {};
-  }, function errorCallback(response) {
-    console.log('There was an error creating the data', response);
-  });
-}
+  };
 
 };
 
@@ -334,34 +367,124 @@ function ListingShowController ($http, $stateParams, $location) {
 // Services //
 //////////////
 
-Account.$inject = ["$http", "$q", "$auth"]; // minification protection
-function Account($http, $q, $auth) {
+
+//inject $rootScope so we can alert the controllers about data updates
+Account.$inject = ["$auth", "$http", "$q", "$rootScope", "$timeout"]; // minification protection
+function Account($auth, $http, $q, $rootScope, $timeout) {
   var self = this;
   self.user = null;
 
-  self.signup = signup;
+  self.addListing = addListing;
+  self.currentUser = currentUser;
+  self.deleteListing = deleteListing;
+  self.getOneListing = getOneListing;
+  self.getProfile = getProfile;
   self.login = login;
   self.logout = logout;
-  self.currentUser = currentUser;
-  self.getProfile = getProfile;
+  self.replaceListing = replaceListing;
+  self.signup = signup;
   self.updateProfile = updateProfile;
 
-  function signup(userData) {
-    return (
-      $auth
-        .signup(userData) // signup (https://github.com/sahat/satellizer#authsignupuser-options)
-        .then(
-          function onSuccess(response) {
-            $auth.setToken(response.data.token); // set token (https://github.com/sahat/satellizer#authsettokentoken)
-          },
+  //listeners
 
-          function onError(error) {
-            console.error(error);
-            alert("Email is already taken");
+  $rootScope.$on('profile:deleteListing',function(event, listingId) {
+    deleteListing(listingId);
+  });
 
-          }
-        )
-    );
+  /**
+   * Calls getOneListing on the listing id from the profile controller.  If you find it
+   * send the listing to ListingsIndexController.
+  */
+  $rootScope.$on('profile:goToEditListing', function(event, listingId) {
+    var dataToSend = getOneListing(listingId);
+
+    console.log(dataToSend);
+  
+    if (dataToSend) {
+      console.log('in if before broadcast');
+
+      //give ListingShowController time to load.  Things don't work if we don't.
+      $timeout(function() {
+        $rootScope.$broadcast('account:loadDataToBeEdited', dataToSend);
+      }, 500);
+    }
+  });
+
+
+  //method definitions
+
+  /**
+   * @description Adds a listing to the local model only.
+   * @param {object} listingData - All of the data for the listing.
+   * @returns {undefined}
+  */
+  function addListing(listingData) {
+    self.user.listings.push(listingData);
+  }
+
+  /**
+   * @description Gets the current user data.  First checks self.user, then checks for a 
+   *    no valid authentication token, then asks the server for user data.  Since the 
+   *    authentication token is stored in LocalStorage (by $auth.setToken), authentication 
+   *    can persist if the browser is closed or refreshed.  
+   * @returns {(object|null|promise)} Returns object if self.user is truthy (i.e. the user 
+   *    is logged in and the browser hasn't been closed or refreshed), null if there is no 
+   *    valid authentication token, and promise when there is a token but the user object 
+   *    isn't truthy (e.g. after broser close and reopen [or refresh] but no logout).
+  */
+  function currentUser() {
+    if ( self.user ) { return self.user; }
+    if ( !$auth.isAuthenticated() ) { return null; }
+
+    var deferred = $q.defer();
+    getProfile().then(
+      function onSuccess(response) {
+        self.user = response.data;
+        deferred.resolve(self.user);
+      },
+
+      function onError() {
+        $auth.logout();
+        self.user = null;
+        deferred.reject();
+      }
+    )
+    self.user = promise = deferred.promise;
+    return promise;
+
+  }
+
+  /**
+   * @description Deletes a listing from the local model only.
+   * @param {string} listingId - the id of the listing to remove.  Corresponds to _id.
+   * @returns {undefined}
+  */
+  function deleteListing(listingId) {
+    self.user.listings = self.user.listings.filter(function(element) {
+      return element._id !== listingId;
+    });
+  }
+
+  /**
+   * @description Gets a listing from the local model only.
+   * @param {string} listingId - the id of the listing to get.  Corresponds to _id.
+   * @returns {object|error}
+  */
+  function getOneListing(listingId) {
+    var result = self.user.listings.find(function(element) {
+      return element._id === listingId;
+    });
+    
+    if (result) {
+      return result;
+    } else {
+      console.error(`Can't find listing with id ${listingId}`);
+      console.log(self.user.listings);
+    }
+  }
+
+  function getProfile() {
+    return $http.get('/api/me');
   }
 
   function login(userData) {
@@ -391,30 +514,33 @@ function Account($http, $q, $auth) {
     );
   }
 
-  function currentUser() {
-    if ( self.user ) { return self.user; }
-    if ( !$auth.isAuthenticated() ) { return null; }
-
-    var deferred = $q.defer();
-    getProfile().then(
-      function onSuccess(response) {
-        self.user = response.data;
-        deferred.resolve(self.user);
-      },
-
-      function onError() {
-        $auth.logout();
-        self.user = null;
-        deferred.reject();
-      }
-    )
-    self.user = promise = deferred.promise;
-    return promise;
-
+  /**
+   * @description Removes the old listing and adds the new one.  Only to the local model.
+   * @param {object} listingData - The new listing.
+   * @returns {undefined}
+  */
+  function replaceListing(listingData) {
+    deleteListing(listingData._id);
+    addListing(listingData);
+    console.log(self.user.listings);
   }
 
-  function getProfile() {
-    return $http.get('/api/me');
+  function signup(userData) {
+    return (
+      $auth
+        .signup(userData) // signup (https://github.com/sahat/satellizer#authsignupuser-options)
+        .then(
+          function onSuccess(response) {
+            $auth.setToken(response.data.token); // set token (https://github.com/sahat/satellizer#authsettokentoken)
+          },
+
+          function onError(error) {
+            console.error(error);
+            alert("Email is already taken");
+
+          }
+        )
+    );
   }
 
   function updateProfile(profileData) {

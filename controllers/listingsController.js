@@ -36,6 +36,14 @@ function create(req, res) {
     });
   });
 };
+// function show(req, res) {
+//     db.Listing.findById(req.params.listingId, function(err, foundListing) {
+//       if(err) { console.log('listingsController.show error', err); }
+//      res.json(foundListing);
+//
+//   });
+// }
+
 
 function show(req, res) {
   db.User.findById(req.user, function(err, user) {
@@ -77,6 +85,24 @@ function destroy(req, res) {
 
 function update(req, res) {
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
+    console.log('in update ' + new Date().toLocaleString());
+    console.log(req.body);
+    console.log(Object.keys(req.body));
+
+    //keys:
+    //[ '_id',
+  // 'topic',
+  // 'uid',
+  // 'created',
+  // '__v',
+  // 'bids',
+  // 'description',
+  // 'location',
+  // 'req1' ]
+
+  //TODO: put in a loop exclude [_id, uid, __v, created, bids].
+  //update the rest
+
     if (err) {
       console.log('listingsController.update error', err);
     }
@@ -91,6 +117,9 @@ function update(req, res) {
       res.json(savedListing);
     });
   });
+
+
+  //TODO: find and update User.listings
 
 }
 

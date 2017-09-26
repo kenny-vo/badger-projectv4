@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="col-md-8 col-xs-12">
-      <div ng-hide="listingShowCtrl.listing.bids.length"> No Responses Yet.</div>
+      <h4 ng-hide="listingShowCtrl.listing.bids.length"> No responses yet.</h4>
       <div ng-repeat="bid in listingShowCtrl.listing.bids ">
         <div class="col-md-3 bid-columns">
           <div class="list-group form-inline">
@@ -48,6 +48,11 @@
                 {{bid.response}}
             </li>
             <li class="list-group-item">
+              <li class="list-group-item">
+                <h5 class='inline-header'>Email:</h5>
+                  {{bid.respondEmail}}
+              </li>
+              <li class="list-group-item">
               <h5 class='inline-header'>Budget Response:</h5>
                 {{bid.budgetResponse}}
             </li>

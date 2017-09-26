@@ -1,0 +1,27 @@
+
+
+<div>
+  <h5><a ui-sref="profile">Back to Profile</a></h5>
+</div>
+<div class="col-md-8 col-md-offset-2">
+  <div ng-repeat="listing in main.currentUser().listings | orderBy: 'topic'" class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-md-10 col-xs-12 ">
+        <ul class="list-group form-inline">
+          <li class="list-group-item">
+            <h3>{{listing.topic}}</h3>
+            <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
+            <p class="card-text">{{listing.description}}</p>
+            <p><a ui-sref="listings-response({listingId: listing._id})">Responses: {{listing.bids.length}}</a></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class='panel-footer'>
+        <button class='btn btn-danger' ng-click="profile.deleteListing(listing)">Delete Listing</button>
+        <button class='btn btn-primary' ng-click="profile.goToEditListing(listing);">Edit Listing</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>

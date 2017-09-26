@@ -40,7 +40,7 @@
             <a ng-show="main.currentUser()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, \{{main.currentUser().displayName}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li ng-show="main.currentUser()"><a ui-sref="profile">Profile</a></li>
-              <!-- <li ng-show="main.currentUser()"><a ui-sref="messages">Messages</a></li> -->
+              <li ng-show="main.currentUser()"><a ui-sref="profile-listings">Your Requests</a></li>
               <li ng-show="main.currentUser()"><a ui-sref="logout">Log Out</a></li>
             </ul>
           </li>

@@ -53,17 +53,17 @@ var Listing = require('./models/listing');
  app.put('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.update);
 
 // Bids
-
 app.get('/api/users/:listingId/bids', auth.ensureAuthenticated, controllers.bids.index);
+// app.get('/api/your-responses', auth.ensureAuthenticated, controllers.bids.index);
 app.post('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.create);
-
 
 //  Profile
 
 app.get('/api/users', function (req, res) {
-  User.find({}, function (err, user) {
-    res.json(user);
+  User.find({}, function (err, allUsers) {
+    res.json(allUsers);
   });
+
 });
 
 app.get('/api/users/:_id', function (req, res) {
