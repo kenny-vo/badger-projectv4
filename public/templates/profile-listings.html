@@ -9,7 +9,7 @@
       <div class="col-md-10 col-xs-12 ">
         <ul class="list-group form-inline">
           <li class="list-group-item">
-            <h3><a ui-sref="listingShowCtrl.listings-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
+            <h3>{{listing.topic}}</h3>
             <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
             <p class="card-text">{{listing.description}}</p>
             <p><a ui-sref="listings-response({listingId: listing._id})">Responses: {{listing.bids.length}}</a></p>
@@ -18,9 +18,8 @@
       </div>
     </div>
     <div class='panel-footer'>
-        <button class='btn btn-danger' ng-click="listingShowCtrl.deleteListing(listing)">Delete Listing</button>
-        <button class='btn btn-info' ng-hide="editing" ng-click="editing = true">Edit Listing</button>
-        <button class='btn btn-success' ng-show="editing" ng-click="listingShowCtrl.editListing(listing); editing = false">Save Changes</button>
+        <button class='btn btn-danger' ng-click="profile.deleteListing(listing)">Delete Listing</button>
+        <button class='btn btn-primary' ng-click="profile.goToEditListing(listing);">Edit Listing</button>
     </div>
   </div>
 </div>
