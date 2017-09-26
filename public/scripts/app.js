@@ -260,7 +260,7 @@ function ProfileController (Account, $http, $location, $scope) {
       url: '/api/listings/'+ listing._id
     }).then(function successCallback(json) {
       $scope.$emit('profile:deleteListing', listing._id);
-      
+
       $location.path('/your-listings');
     }, function errorCallback(response) {
       console.error('There was an error deleting the data', response);
@@ -272,7 +272,7 @@ function ProfileController (Account, $http, $location, $scope) {
     $scope.$emit('profile:goToEditListing', listing._id);
     $location.path(`/edit-listing/${listing._id}`);
   }
-    
+
   vm.updateProfile = function() {
     Account
       .updateProfile(vm.new_profile)
@@ -328,6 +328,15 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams)
   $http({
     method: 'GET',
     url: '/api/listings/'+$stateParams.listingId
+  }).then(function successCallback(json) {
+    vm.listing = json.data;
+  }, function errorCallback(response) {
+    console.log('There was an error getting the data', response);
+  });
+
+  $http({
+    method: 'GET',
+    url: '/api/responses/'+$stateParams.listingId
   }).then(function successCallback(json) {
     vm.listing = json.data;
   }, function errorCallback(response) {
@@ -399,7 +408,7 @@ function Account($auth, $http, $q, $rootScope, $timeout) {
     var dataToSend = getOneListing(listingId);
 
     console.log(dataToSend);
-  
+
     if (dataToSend) {
       console.log('in if before broadcast');
 
@@ -423,13 +432,13 @@ function Account($auth, $http, $q, $rootScope, $timeout) {
   }
 
   /**
-   * @description Gets the current user data.  First checks self.user, then checks for a 
-   *    no valid authentication token, then asks the server for user data.  Since the 
-   *    authentication token is stored in LocalStorage (by $auth.setToken), authentication 
-   *    can persist if the browser is closed or refreshed.  
-   * @returns {(object|null|promise)} Returns object if self.user is truthy (i.e. the user 
-   *    is logged in and the browser hasn't been closed or refreshed), null if there is no 
-   *    valid authentication token, and promise when there is a token but the user object 
+   * @description Gets the current user data.  First checks self.user, then checks for a
+   *    no valid authentication token, then asks the server for user data.  Since the
+   *    authentication token is stored in LocalStorage (by $auth.setToken), authentication
+   *    can persist if the browser is closed or refreshed.
+   * @returns {(object|null|promise)} Returns object if self.user is truthy (i.e. the user
+   *    is logged in and the browser hasn't been closed or refreshed), null if there is no
+   *    valid authentication token, and promise when there is a token but the user object
    *    isn't truthy (e.g. after broser close and reopen [or refresh] but no logout).
   */
   function currentUser() {
@@ -474,7 +483,7 @@ function Account($auth, $http, $q, $rootScope, $timeout) {
     var result = self.user.listings.find(function(element) {
       return element._id === listingId;
     });
-    
+
     if (result) {
       return result;
     } else {
