@@ -24,6 +24,16 @@ app.set('view engine', 'hbs');
 mongoose.Promise = global.Promise;
 
 // connect to mongodb
+// production, mLabs
+// mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{useMongoClient: true})
+//   .then(() => {
+//     console.log('Connected to database at', new Date().toLocaleString());
+//   })
+//   .catch((err) => {
+//     console.error('Error connecting to the database: ', err);
+//   });
+
+// local testing
 mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
   .then(() => {
     console.log('Connected to database at', new Date().toLocaleString());
@@ -54,7 +64,6 @@ var Listing = require('./models/listing');
 
 // Bids
 app.get('/api/users/:listingId/bids', auth.ensureAuthenticated, controllers.bids.index);
-// app.get('/api/your-responses', auth.ensureAuthenticated, controllers.bids.index);
 app.post('/api/listings/:listingId/bids', auth.ensureAuthenticated, controllers.bids.create);
 
 //  Profile
@@ -85,7 +94,7 @@ app.get('/api/users/:_id/listings', function (req, res) {
 
 app.get('/api/me', auth.ensureAuthenticated, function (req, res) {
   User.findById(req.user, function (err, user) {
-    res.send(user.populate('posts'));
+    res.send(user);
   });
 });
 
