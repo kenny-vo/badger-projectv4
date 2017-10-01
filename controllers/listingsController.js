@@ -24,6 +24,7 @@ function create(req, res) {
       console.log(err);
     }
     var newListing = new db.Listing(req.body);
+    newListing.createdBy = user.username
     newListing.uid = user._id
     newListing.save(function(err, savedListing) {
       if (err) {
@@ -40,6 +41,7 @@ function show(req, res) {
     db.Listing.findById(req.params.listingId, function(err, foundListing) {
       if(err) { console.log('listingsController.show error', err); }
      res.json(foundListing);
+     console.log('here')
 
   });
 }

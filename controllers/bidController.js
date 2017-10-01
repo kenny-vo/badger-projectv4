@@ -56,6 +56,7 @@ function create(req, res) {
             let newBid = new db.Bid(req.body);
             newBid.uid = currentUser._id;
             newBid.respondEmail = currentUser.email;
+            newBid.createBy = foundUser.listings[i].createdBy;
             // trying to push here
             setTimeout(function() {
               db.User.findById(req.user, function(err, currentUser) {
@@ -63,6 +64,7 @@ function create(req, res) {
                 let newBid = new db.Bid(req.body);
                 newBid.uid = currentUser._id;
                 newBid.respondEmail = currentUser.email;
+                newBid.createBy = foundUser.listings[i].createdBy;
                 currentUser.myBids.push(newBid);
                 currentUser.save(function (err, savedUser) {
                   if (err) {

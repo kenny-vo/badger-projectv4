@@ -114,7 +114,7 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controllerAs: 'listingShowCtrl'
     })
     .state('listing-detail', {
-      url: '/listing/:listingId',
+      url: '/listings/:listingId',
       templateUrl: 'templates/listing-show.html',
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
@@ -333,15 +333,15 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams)
   }, function errorCallback(response) {
     console.log('There was an error getting the data', response);
   });
-
-  $http({
-    method: 'GET',
-    url: '/api/responses/'+$stateParams.listingId
-  }).then(function successCallback(json) {
-    vm.listing = json.data;
-  }, function errorCallback(response) {
-    console.log('There was an error getting the data', response);
-  });
+  // 
+  // $http({
+  //   method: 'GET',
+  //   url: '/api/responses/'+$stateParams.listingId
+  // }).then(function successCallback(json) {
+  //   vm.listing = json.data;
+  // }, function errorCallback(response) {
+  //   console.log('There was an error getting the data', response);
+  // });
 
   vm.createBid = function () {
     $http({

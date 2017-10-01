@@ -12,6 +12,7 @@ var ListingSchema = new Schema({
   req2: String,
   req3: String,
   created: String,
+  createdBy: String,
   dateReq: String,
   uid: String,
   bids: [Bid.schema]
