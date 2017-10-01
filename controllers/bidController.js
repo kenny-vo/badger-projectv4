@@ -55,16 +55,19 @@ function create(req, res) {
             console.log('Found listing: ' + foundUser.listings[i].topic);
             let newBid = new db.Bid(req.body);
             newBid.uid = currentUser._id;
-            newBid.respondEmail = currentUser.email;
-            newBid.createBy = foundUser.listings[i].createdBy;
+            newBid.responseEmail = currentUser.email;
+            newBid.createdBy = foundUser.listings[i].createdBy;
+            newBid.bidTopic = foundUser.listings[i].topic;
+
             // trying to push here
             setTimeout(function() {
               db.User.findById(req.user, function(err, currentUser) {
                 console.log(currentUser.email)
                 let newBid = new db.Bid(req.body);
                 newBid.uid = currentUser._id;
-                newBid.respondEmail = currentUser.email;
-                newBid.createBy = foundUser.listings[i].createdBy;
+                newBid.responseEmail = currentUser.email;
+                newBid.createdBy = foundUser.listings[i].createdBy;
+                newBid.bidTopic = foundUser.listings[i].topic;
                 currentUser.myBids.push(newBid);
                 currentUser.save(function (err, savedUser) {
                   if (err) {
