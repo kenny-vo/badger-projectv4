@@ -24,7 +24,7 @@ app.set('view engine', 'hbs');
 mongoose.Promise = global.Promise;
 
 // connect to mongodb
-production, mLabs
+// production, mLabs
 mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{useMongoClient: true})
   .then(() => {
     console.log('Connected to database at', new Date().toLocaleString());
