@@ -10,7 +10,9 @@ Responses
       <ul class="list-group form-inline">
         <li class="list-group-item">
           <h3><a ui-sref="listing-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
-          <p> Topic of Request: {{bids.bidTopic}} | In response to: {{bids.createdBy}} | Response Sent on: {{bids.responseDate}}</p>
+            <p> Topic of Request: {{bids.bidTopic}}</p>
+            <p>In response to: {{bids.createdBy}} </p>
+            <p> Response Sent on: {{bids.responseDate}}</p>
           <p class="card-text">Your Response: {{bids.response}}</p>
         </li>
       </ul>

@@ -315,6 +315,8 @@ function ListingsIndexController (Account, $http, $location) {
 
 };
 
+
+
 ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams"];
 function ListingShowController (Account, $http, $location, $scope, $stateParams) {
   var vm = this;
@@ -333,15 +335,16 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams)
   }, function errorCallback(response) {
     console.log('There was an error getting the data', response);
   });
-  // 
-  // $http({
-  //   method: 'GET',
-  //   url: '/api/responses/'+$stateParams.listingId
-  // }).then(function successCallback(json) {
-  //   vm.listing = json.data;
-  // }, function errorCallback(response) {
-  //   console.log('There was an error getting the data', response);
-  // });
+
+// Show all bids/responses
+  $http({
+    method: 'GET',
+    url: '/api/responses/'+$stateParams.listingId
+  }).then(function successCallback(json) {
+    vm.listing = json.data;
+  }, function errorCallback(response) {
+    console.log('There was an error getting the data', response);
+  });
 
   vm.createBid = function () {
     $http({
