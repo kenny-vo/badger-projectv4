@@ -51,9 +51,14 @@
             </div>
             <!-- Response box -->
             <div class="col-md-3 col-xs-12" ng-show="responding">
-              Your Response:
-              <textarea ng-show="responding" ng-model="listingShowCtrl.newBid.response" placeholder="Response" type="string" class="form-control input-md">
-                   </textarea>
+              <h5>Your Response:</h5>
+              <textarea
+                ng-show="responding"
+                ng-model="listingShowCtrl.newBid.response"
+                placeholder="Response"
+                type="string"
+                class="form-control input-md">
+              </textarea>
               <input ng-show="responding" ng-model="listingShowCtrl.newBid.budgetResponse" placeholder="Budget Response" type="string" class="form-control input-md">
               <input ng-show="responding" ng-model="listingShowCtrl.newBid.req1Response" placeholder="Requirements Response" type="string" class="form-control input-md">
             </div>

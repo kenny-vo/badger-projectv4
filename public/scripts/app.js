@@ -125,9 +125,9 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'ListingShowController',
       controllerAs: 'listingShowCtrl'
     })
-    .state('bid-responses', {
-      url: '/bid-responses/',
-      templateUrl: 'templates/bid-responses.html',
+    .state('your-bids', {
+      url: '/your-bids/',
+      templateUrl: 'templates/your-bids.html',
       controller: 'ProfileController',
       controllerAs: 'profile'
     })
