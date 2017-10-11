@@ -51,7 +51,7 @@ function create(req, res) {
         // console.log(foundUser.listings[i]._id);
         if (foundUser.listings[i]._id == req.params.listingId) {
           db.User.findById(req.user, function(err, currentUser) {
-            // console.log(currentUser)
+            console.log(currentUser)
             console.log('Found listing: ' + foundUser.listings[i].topic);
             let newBid = new db.Bid(req.body);
             newBid.uid = currentUser._id;
@@ -95,21 +95,7 @@ function create(req, res) {
 
 };
 
-function responses(req, res) {
-  db.User.findById(req.user, function(err, user) {
-    let pertinentListing = user.listings.find(function filter(element) {
-      return element._id.toString() === req.params.listingId;
-    });
-
-    if (err) {
-      console.log('listingsController.show error', err);
-    }
-    res.json(pertinentListing);
-  });
-}
-
 module.exports = {
   index: index,
-  create: create,
-  responses: responses
+  create: create
 }

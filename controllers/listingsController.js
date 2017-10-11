@@ -41,6 +41,21 @@ function show(req, res) {
     db.Listing.findById(req.params.listingId, function(err, foundListing) {
       if(err) { console.log('listingsController.show error', err); }
      res.json(foundListing);
+     console.log
+
+  });
+}
+
+function responses(req, res) {
+  db.User.findById(req.user, function(err, user) {
+    let pertinentListing = user.listings.find(function filter(element) {
+      return element._id.toString() === req.params.listingId;
+    });
+
+    if (err) {
+      console.log('listingsController.show error', err);
+    }
+    res.json(pertinentListing);
   });
 }
 
@@ -114,5 +129,6 @@ module.exports = {
   create: create,
   show: show,
   destroy: destroy,
-  update: update
+  update: update,
+  responses: responses
 };
