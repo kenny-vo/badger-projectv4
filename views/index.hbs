@@ -34,13 +34,13 @@
           <li><a ui-sref="about">About</a></li>
           <li ng-show="!main.currentUser()"><a ui-sref="signup">Sign Up</a></li>
           <li ng-show="!main.currentUser()"><a ui-sref="login">Log In</a></li>
-          <li ng-show="main.currentUser()"><a ui-sref="create-listing">Create Request</a></li>
+          <li ng-show="main.currentUser()"><a ui-sref="create-listing">Create Listing</a></li>
 
           <li class="dropdown">
             <a ng-show="main.currentUser()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, \{{main.currentUser().displayName}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li ng-show="main.currentUser()"><a ui-sref="profile">Profile</a></li>
-              <li ng-show="main.currentUser()"><a ui-sref="profile-listings">Your Requests</a></li>
+              <li ng-show="main.currentUser()"><a ui-sref="profile-listings">Your Listings</a></li>
               <li ng-show="main.currentUser()"><a ui-sref="logout">Log Out</a></li>
             </ul>
           </li>
