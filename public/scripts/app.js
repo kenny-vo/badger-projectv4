@@ -315,8 +315,6 @@ function ListingsIndexController (Account, $http, $location) {
 
 };
 
-
-
 ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams"];
 function ListingShowController (Account, $http, $location, $scope, $stateParams) {
   var vm = this;

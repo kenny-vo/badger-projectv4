@@ -95,7 +95,21 @@ function create(req, res) {
 
 };
 
+function responses(req, res) {
+  db.User.findById(req.user, function(err, user) {
+    let pertinentListing = user.listings.find(function filter(element) {
+      return element._id.toString() === req.params.listingId;
+    });
+
+    if (err) {
+      console.log('listingsController.show error', err);
+    }
+    res.json(pertinentListing);
+  });
+}
+
 module.exports = {
   index: index,
-  create: create
+  create: create,
+  responses: responses
 }
