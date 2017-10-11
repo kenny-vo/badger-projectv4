@@ -9,22 +9,24 @@
                 <div class="col-md-3 col-xs-12 thumbnail">
                   <img src="./images/placeholder.png" alt="listing image" >
                   <ng-hide="listingShowCtrl.listing.createdBy == null">
-                    <span ng-hide="editing">Requested By: {{listingShowCtrl.listing.createdBy}}</a></span>
+                    <span>Requested By: {{listingShowCtrl.listing.createdBy}}</a></span>
 
                 </div>
 
+                <div class="col-md-9 col-xs-12">
+                 <input ng-show="responding" ng-model="listingShowCtrl.newBid.budgetResponse" placeholder="Budget Response" type="string" class="form-control input-md">
+
+</div>
                 <div class="col-md-9 col-xs-12">
 
                   <ul class="list-group form-inline">
                     <li class="list-group-item">
                       <h4 class='inline-header'>Topic:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.topic}}</a></span>
-                      <input ng-show="editing" ng-model="listingShowCtrl.listing.topic" type="text" class="form-control input-md">
+                      <span>{{listingShowCtrl.listing.topic}}</a></span>
                     </li>
                     <li class="list-group-item">
                       <h4 class='inline-header'>Description:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.description}}</a></span>
-                      <input ng-show="editing" ng-model="listingShowCtrl.listing.description" type="text" class="form-control input-md">
+                      <span>{{listingShowCtrl.listing.description}}</a></span>
                       <textarea
                          ng-show="responding"
                          ng-model="listingShowCtrl.newBid.response"
@@ -36,29 +38,26 @@
                     </li>
                     <li class="list-group-item">
                       <h4 class='inline-header'>Budget:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.budget| currency : $ : 0}}</a></span>
-                      <input ng-show="editing" ng-model="listingShowCtrl.listing.budget" type="text" class="form-control input-md">
+                      <span >{{listingShowCtrl.listing.budget| currency : $ : 0}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.budgetResponse" placeholder="Budget Response" type="string" class="form-control input-md">
 
                     </li>
                     <li class="list-group-item">
                       <h4 class='inline-header'>Location:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.location}}</a></span>
-                      <input ng-show="editing" ng-model="listingShowCtrl.listing.location" type="text" class="form-control input-md">
+                      <span >{{listingShowCtrl.listing.location}}</a></span>
                     </li>
                     <li class="list-group-item">
                       <h4 class='inline-header'>Requirements:</h4>
-                      <span ng-hide="editing">{{listingShowCtrl.listing.req1 || 'None'}}</a></span>
-                      <input ng-show="editing" ng-model="listingShowCtrl.listing.location" type="text" class="form-control input-md">
+                      <span>{{listingShowCtrl.listing.req1 || 'None'}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req1Response" placeholder="Budget Response" type="string" class="form-control input-md">
 
                     </li>
                     <li class="list-group-item" ng-hide="listingShowCtrl.listing.req2 == null">
-                      <span ng-hide="editing">{{listingShowCtrl.listing.req2}}</a></span>
+                      <span >{{listingShowCtrl.listing.req2}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req2Response" placeholder="Budget Response" type="string" class="form-control input-md">
                     </li>
                     <li class="list-group-item" ng-hide="listingShowCtrl.listing.req3 == null">
-                      <span ng-hide="editing">{{listingShowCtrl.listing.req3}}</a></span>
+                      <span >{{listingShowCtrl.listing.req3}}</a></span>
                       <input ng-show="responding" ng-model="listingShowCtrl.newBid.req3Response" placeholder="Budget Response" type="string" class="form-control input-md">
                     </li>
                   </ul>
@@ -76,6 +75,8 @@
                 </div>
               </div>
             </div>
+            <div class="panel-body response">
+
           </div>
         </div>
       </div>
