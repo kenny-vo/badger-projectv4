@@ -17,6 +17,8 @@ function index(req, res) {
   })
 }
 
+
+// POST
 function create(req, res) {
   db.User.findById(req.user, function(err, user) {
     console.log(req.user)
@@ -37,6 +39,8 @@ function create(req, res) {
     });
   });
 };
+
+// DETAIL
 function show(req, res) {
     db.Listing.findById(req.params.listingId, function(err, foundListing) {
       if(err) { console.log('listingsController.show error', err); }
@@ -45,6 +49,7 @@ function show(req, res) {
   });
 }
 
+// DETAIL + BIDS
 function responses(req, res) {
   db.User.findById(req.user, function(err, user) {
     let pertinentListing = user.listings.find(function filter(element) {
