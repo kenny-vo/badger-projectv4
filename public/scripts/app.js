@@ -2,7 +2,8 @@ angular
   .module('identifly', [
     'ui.router',
     'satellizer',
-    'ngMessages'
+    'ngMessages',
+    'angular-growl'
   ])
   .controller('MainController', MainController)
   .controller('HomeController', HomeController)
@@ -13,6 +14,9 @@ angular
   .controller('ListingsIndexController', ListingsIndexController)
   .controller('ListingShowController', ListingShowController)
   .service('Account', Account)
+  .config(['growlProvider', function(growlProvider) {
+    growlProvider.globalTimeToLive(5000);
+  }])
   .config(configRoutes)
   .directive('format', ['$filter', function ($filter) {
     return {
@@ -48,7 +52,7 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
   });
 
   // for any unmatched URL redirect to /
-  $urlRouterProvider.otherwise("/");
+  // $urlRouterProvider.otherwise("/");
 
   $stateProvider
     .state('home', {
@@ -56,6 +60,10 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       templateUrl: 'templates/home.html',
       controller: 'HomeController',
       controllerAs: 'home'
+    })
+    .state('about', {
+      url: '/about',
+      templateUrl: 'templates/about.html'
     })
     .state('signup', {
       url: '/signup',
@@ -92,7 +100,7 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
         loginRequired: loginRequired
       }
     })
-    .state('profile-listings', {
+    .state('your-listings', {
       url: '/your-listings',
       templateUrl: 'templates/profile-listings.html',
       controller: 'ProfileController',
@@ -170,6 +178,7 @@ function MainController (Account) {
 
 HomeController.$inject = ["$http", '$location'];
 function HomeController ($http, $location) {
+
   var vm = this;
   vm.newListing = {};
 
@@ -181,19 +190,6 @@ function HomeController ($http, $location) {
   }, function errorCallback(response) {
     console.log('Error getting data', response);
   });
-
-  vm.createListing = function (){
-    $http({
-      method: 'POST',
-      url: '/api/listings',
-      data: vm.newListing,
-    }).then(function successCallback(response) {
-      vm.listings.push(response.data);
-      $location.path('/');
-    }, function errorCallback(response) {
-      console.log('Error posting data', response);
-    });
-  };
 }
 
 LoginController.$inject = ["$location", "Account"];
@@ -235,13 +231,13 @@ function LogoutController ($location, Account) {
 }
 
 //need $scope to emit events to Account controller
-ProfileController.$inject = ["Account", "$http", "$location", "$scope"]; // minification protection
+ProfileController.$inject = ["Account", "$http", "$location", "$scope"];
 function ProfileController (Account, $http, $location, $scope) {
   var vm = this;
-  vm.new_profile = {}; // form data
+  vm.new_profile = {};
 
   $scope.$on('account:updateListings',function(data) {
-    console.log('hell yeah');
+    console.log('Listing Updated');
   });
 
   //get my bids.  TODO: refactor to look locally in Account
@@ -282,11 +278,16 @@ function ProfileController (Account, $http, $location, $scope) {
   };
 }
 
-ListingsIndexController.$inject = ['Account','$http', '$location'];
-function ListingsIndexController (Account, $http, $location) {
+ListingsIndexController.$inject = ['Account','$http', '$location', '$scope', 'growl'];
+function ListingsIndexController (Account, $http, $location, $scope, growl) {
   var vm = this;
   vm.editedListing = {};
   vm.newListing = {};
+
+  $scope.showError = function () {
+    growl.error('error message');
+    console.log('error')
+  }
 
   //get all listings
   $http({
@@ -307,7 +308,7 @@ function ListingsIndexController (Account, $http, $location) {
       vm.listings.push(response.data);
       //add it to the local model
       Account.addListing(response.data);
-      $location.path('/');
+      $location.path('/your-listings');
     }, function errorCallback(response) {
       console.log('Error posting data', response);
     });
