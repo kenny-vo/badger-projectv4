@@ -284,11 +284,6 @@ function ListingsIndexController (Account, $http, $location, $scope, growl) {
   vm.editedListing = {};
   vm.newListing = {};
 
-  $scope.showError = function () {
-    growl.error('error message');
-    console.log('error')
-  }
-
   //get all listings
   $http({
     method: 'GET',
@@ -309,8 +304,11 @@ function ListingsIndexController (Account, $http, $location, $scope, growl) {
       //add it to the local model
       Account.addListing(response.data);
       $location.path('/your-listings');
+
     }, function errorCallback(response) {
       console.log('Error posting data', response);
+    }).then(function showSuccess(){
+      growl.success('Success');
     });
   };
 
