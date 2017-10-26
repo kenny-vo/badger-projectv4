@@ -37,16 +37,16 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <li class="grow"><a ui-sref="about">About</a></li>
-          <li class="grow" ng-show="!main.currentUser()"><a ui-sref="signup">Sign Up</a></li>
-          <li class="grow" ng-show="!main.currentUser()"><a ui-sref="login">Log In</a></li>
+          <li class="grow" ng-show="!main.currentUser()"><a ui-sref="signup"><i class="fa fa-address-card-o" aria-hidden="true"></i> Sign Up</a></li>
+          <li class="grow" ng-show="!main.currentUser()"><a ui-sref="login"> <i class="fa fa-sign-in" aria-hidden="true"></i>  Log In</a></li>
           <li class="grow" ng-show="main.currentUser()"><a ui-sref="create-listing">Create Listing</a></li>
 
           <li class="dropdown">
             <a class="grow" ng-show="main.currentUser()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, \{{main.currentUser().displayName}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="grow" ng-show="main.currentUser()"><a ui-sref="profile">Profile</a></li>
-              <li class="grow" ng-show="main.currentUser()"><a ui-sref="profile-listings">Your Listings</a></li>
-              <li class="grow" ng-show="main.currentUser()"><a ui-sref="logout">Log Out</a></li>
+              <li class="grow" ng-show="main.currentUser()"><a ui-sref="profile"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
+              <li class="grow" ng-show="main.currentUser()"><a ui-sref="profile-listings"> <i class="fa fa-list" aria-hidden="true"></i> Your Listings</a></li>
+              <li class="grow" ng-show="main.currentUser()"><a ui-sref="logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>
             </ul>
           </li>
         </ul>

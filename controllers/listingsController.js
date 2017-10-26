@@ -45,7 +45,6 @@ function show(req, res) {
     db.Listing.findById(req.params.listingId, function(err, foundListing) {
       if(err) { console.log('listingsController.show error', err); }
      res.json(foundListing);
-     console.log(foundListing.uid)
 
   });
 }

@@ -6,10 +6,11 @@
           <div class='row'>
             <span class="list-group-item" ng-if="main.currentUser()._id === listingShowCtrl.listing.uid">
               This is your listing.
+              <button class="pull-right btn btn-xs btn-default"><a href="javascript:history.back()">Go Back</a></button>
             </span>
-            <div class="col-md-2 col-xs-12 thumbnail">
+
+            <div class="col-md-2 col-xs-4 thumbnail">
               <img src="./images/placeholder.png" alt="listing image">
-              <ng-hide="listingShowCtrl.listing.createdBy == null">
                 <span>Requested By: {{listingShowCtrl.listing.createdBy}}</a></span>
 
                 <button class="btn btn-info" ng-hide="responding" ng-click="responding = true"> Respond</button>
@@ -22,23 +23,27 @@
 
               <ul class="list-group form-inline">
                 <li class="list-group-item" >
-                  <h4 class='inline-header'>Topic:</h4>
+                  <h4 class='inline-header' style="font-weight: bold;">Topic:</h4>
                   <span>{{listingShowCtrl.listing.topic}}</a></span>
                 </li>
-                <li class="list-group-item">
-                  <h4 class='inline-header'>Description:</h4>
-                  <span>{{listingShowCtrl.listing.description}}</a></span>
+                <li class="list-group-item" >
+                  <h4 class='inline-header' style="font-weight: bold;">Needed by:</h4>
+                  <span>{{listingShowCtrl.listing.dateReq}}</a></span>
                 </li>
                 <li class="list-group-item">
-                  <h4 class='inline-header'>Budget:</h4>
+                  <h4 class='inline-header' style="font-weight: bold;">Budget:</h4>
                   <span>{{listingShowCtrl.listing.budget| currency : $ : 0}}</a></span>
                 </li>
                 <li class="list-group-item">
-                  <h4 class='inline-header'>Location:</h4>
+                  <h4 class='inline-header' style="font-weight: bold;">Description:</h4>
+                  <span>{{listingShowCtrl.listing.description}}</a></span>
+                </li>
+                <li class="list-group-item">
+                  <h4 class='inline-header' style="font-weight: bold;">Location:</h4>
                   <span>{{listingShowCtrl.listing.location}}</a></span>
                 </li>
                 <li class="list-group-item">
-                  <h4 class='inline-header'>Requirements:</h4>
+                  <h4 class='inline-header' style="font-weight: bold;">Requirements:</h4>
                   <span>{{listingShowCtrl.listing.req1 || 'None'}}</a></span>
                 </li>
                 <li class="list-group-item" ng-hide="listingShowCtrl.listing.req2 == null">

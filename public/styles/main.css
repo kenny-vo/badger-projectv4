@@ -6,7 +6,13 @@ body {
 
 .center-listing-title{
   font-weight: bold;
+}
 
+#desciption{
+  width: 10px
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
 }
 
 .bid-columns {
