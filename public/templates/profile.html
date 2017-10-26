@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
 		<div class="col-sm-4">
-		<h3 >{{main.currentUser().displayName}}</h3>
+		<h3 ><i class="fa fa-user" aria-hidden="true"></i> {{main.currentUser().displayName}}</h3>
 			<hr>
 				<p><strong>Email:</strong> {{main.currentUser().email}}</p>
 				<p><strong>Username:</strong> {{main.currentUser().username}}</p>
@@ -31,10 +31,10 @@
 		</div>
     <div class="profile-menu">
       <div class="col-sm-2">
-        <h4><a ui-sref="your-listings" style="color:#10645f;">Your Listings</a></h4>
+        <h4><a ui-sref="your-listings" style="color:#10645f;"><i class="fa fa-list" aria-hidden="true"></i> Your Listings</a></h4>
       </div>
       <div class="col-sm-2">
-        <h4><a ui-sref="your-bids"style="color:#10645f;">Your Bids</a></h4>
+        <h4><a ui-sref="your-bids"style="color:#10645f;"><i class="fa fa-reply" aria-hidden="true"></i>  Your Bids</a></h4>
       </div>
       <div class="col-sm-2">
         <h4><a ui-sref="profile-listings"style="color:#10645f;">Messages</a></h4>

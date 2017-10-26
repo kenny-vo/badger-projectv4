@@ -15,7 +15,7 @@
             <h3>{{listing.topic}}</h3>
             <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
             <p class="card-text">{{listing.description}}</p>
-            <p><a ui-sref="listings-response({listingId: listing._id})">Responses: {{listing.bids.length}}</a></p>
+            <p><i class="fa fa-comments" aria-hidden="true"></i><a ui-sref="listings-response({listingId: listing._id})">  Responses: {{listing.bids.length}}</a></p>
           </li>
         </ul>
       </div>
