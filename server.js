@@ -84,7 +84,6 @@ app.get('/api/users/:_id', function (req, res) {
 
 app.get('/api/users/:_id/listings', function (req, res) {
   Listing.findById(req.params.listingId, function(err, foundListing){
-    // console.log(foundListing);
   })
   User.findOne({'listings.id': req.params.listingId }, function (err, foundUser) {
     if(err) {console.log(err);}

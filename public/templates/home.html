@@ -12,7 +12,7 @@
             <li class="list-group-item">
               <p class="pull-right"><a style="color:#10645f;" ui-sref="listing-detail({listingId: listing._id})">View Listing ></a></p>
               <h3><a style="color:#10645f;" ui-sref="listing-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
-              <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
+              <p> <strong>Budget:</strong> {{listing.budget| currency : $ : 0}} |<strong> Location:</strong> {{listing.location}} | <strong>Posted: </strong>{{listing.created}}</p>
               <p class="card-text">{{listing.description}}</p>
             </li>
           </ul>
