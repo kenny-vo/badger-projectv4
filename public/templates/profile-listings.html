@@ -7,6 +7,7 @@
 
 </div>
 <div class="col-md-8 col-md-offset-2">
+  <h4 class="text-center" ng-hide="main.currentUser().listings.length"> You have not created any listings yet.  Create a listing <a ui-sref="create-listing">here!</a></h4>
   <div ng-repeat="listing in main.currentUser().listings | orderBy: 'topic'" class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="col-md-10 col-xs-12 ">
