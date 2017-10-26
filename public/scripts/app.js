@@ -325,16 +325,16 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams,
   });
 
   //get one listing.  TODO: refactor to look locally in Account
-    $http({
-      method: 'GET',
-      url: '/api/listings/'+$stateParams.listingId
-    }).then(function successCallback(json) {
-      vm.listing = json.data;
-    }, function errorCallback(response) {
-      console.log('There was an error getting the data', response);
-    });
+  $http({
+    method: 'GET',
+    url: '/api/listings/'+$stateParams.listingId
+  }).then(function successCallback(json) {
+    vm.listing = json.data;
+  }, function errorCallback(response) {
+    console.log('There was an error getting the data', response);
+  });
 
-// Show all bids/responses
+  // Show all bids/responses
   $http({
     method: 'GET',
     url: '/api/responses/'+$stateParams.listingId
@@ -355,6 +355,7 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams,
       vm.newBid = {};
     }, function errorCallback(response) {
       console.log('There was an error creating the data', response);
+      // TODO fix showSuccess only if something was sent
     }).then(function showSuccess(){
       growl.success('Your bid was sent!', {disableCountDown: true});
     });
@@ -372,7 +373,6 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams,
       console.log('There was an error editing the data', response);
     });
   };
-
 };
 
 
