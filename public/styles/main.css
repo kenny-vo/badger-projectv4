@@ -1,6 +1,12 @@
 body {
   color: #10645f;
-  font-size: 13px;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+}
+
+.center-listing-title{
+  font-weight: bold;
+
 }
 
 .bid-columns {
@@ -10,4 +16,14 @@ body {
 .panel-body {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+
+/*Navigation Bar*/
+
+.grow:hover
+{
+  -webkit-transform: scale(1.08);
+  -ms-transform: scale(1.08);
+  transform: scale(1.08);
+
 }

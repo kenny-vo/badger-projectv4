@@ -1,17 +1,22 @@
 <div class="container">
-  <h1 class="text-center">Current Listings</h1>
+  <h1 class="text-center center-listing-title">Current Listings</h1>
   <br>
-  <input type="text" class="form-control col-md-10 " ng-model="searchText" placeholder="Search Listings" style="margin-bottom: 15px;">
-  <div ng-repeat="listing in home.listings | orderBy: 'topic' | filter: searchText" class="row">
-    <div class="col-md-10 col-md-offset-1 ">
-      <div class="panel-body">
-        <ul class="list-group form-inline">
-          <li class="list-group-item">
-            <h3><a ui-sref="listing-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
-            <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
-            <p class="card-text">{{listing.description}}</p>
-          </li>
-        </ul>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <input type="text" class="form-control col-md-10 " ng-model="searchText" placeholder="Search Listings" style="margin-bottom: 15px; width">
+    </div>
+    <div ng-repeat="listing in home.listings | orderBy: 'topic' | filter: searchText" class="row">
+      <div class="col-md-10 col-md-offset-1 ">
+        <div class="panel-body" style="height: 140px;">
+          <ul class="list-group form-inline">
+            <li class="list-group-item">
+              <p class="pull-right"><a style="color:#10645f;" ui-sref="listing-detail({listingId: listing._id})">View Listing ></a></p>
+              <h3><a style="color:#10645f;" ui-sref="listing-detail({listingId: listing._id})">{{listing.topic}}</a></h3>
+              <p> Budget: {{listing.budget| currency : $ : 0}} | Location: {{listing.location}} | Posted: {{listing.created}}</p>
+              <p class="card-text">{{listing.description}}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

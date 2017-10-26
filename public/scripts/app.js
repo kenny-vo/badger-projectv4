@@ -3,7 +3,8 @@ angular
     'ui.router',
     'satellizer',
     'ngMessages',
-    'angular-growl'
+    'angular-growl',
+    'ngAnimate'
   ])
   .controller('MainController', MainController)
   .controller('HomeController', HomeController)
@@ -15,7 +16,8 @@ angular
   .controller('ListingShowController', ListingShowController)
   .service('Account', Account)
   .config(['growlProvider', function(growlProvider) {
-    growlProvider.globalTimeToLive(5000);
+    growlProvider.globalPosition("top-center");
+    growlProvider.globalTimeToLive({success: 3000});
   }])
   .config(configRoutes)
   .directive('format', ['$filter', function ($filter) {
@@ -304,18 +306,17 @@ function ListingsIndexController (Account, $http, $location, $scope, growl) {
       //add it to the local model
       Account.addListing(response.data);
       $location.path('/your-listings');
-
     }, function errorCallback(response) {
       console.log('Error posting data', response);
     }).then(function showSuccess(){
-      growl.success('Success');
+      growl.success('Your listing was created!', {disableCountDown: true});
     });
   };
 
 };
 
-ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams"];
-function ListingShowController (Account, $http, $location, $scope, $stateParams) {
+ListingShowController.$inject = ["Account", "$http", "$location", "$scope", "$stateParams", "growl"];
+function ListingShowController (Account, $http, $location, $scope, $stateParams, growl) {
   var vm = this;
   vm.editedListing = {};
 
@@ -343,6 +344,7 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams)
     console.log('There was an error getting the data', response);
   });
 
+  // Create a bid
   vm.createBid = function () {
     $http({
       method: 'POST',
@@ -353,6 +355,8 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams)
       vm.newBid = {};
     }, function errorCallback(response) {
       console.log('There was an error creating the data', response);
+    }).then(function showSuccess(){
+      growl.success('Your bid was sent!', {disableCountDown: true});
     });
   };
 
