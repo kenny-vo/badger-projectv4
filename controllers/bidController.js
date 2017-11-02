@@ -40,6 +40,8 @@ function create(req, res) {
                 newBid.responseEmail = currentUser.email;
                 newBid.createdBy = foundUser.listings[i].createdBy;
                 newBid.bidTopic = foundUser.listings[i].topic;
+                newBid.bidDescription = foundUser.listing[i].description;
+                newBid.bidBudget = foundUser.listings[i].budget;
                 currentUser.myBids.push(newBid);
                 currentUser.save(function (err, savedUser) {
                   if (err) {
