@@ -32,6 +32,9 @@ function create(req, res) {
             newBid.responseEmail = currentUser.email;
             newBid.createdBy = foundUser.listings[i].createdBy;
             newBid.bidTopic = foundUser.listings[i].topic;
+            newBid.bidDescription = foundUser.listing[i].description;
+            newBid.bidBudget = foundUser.listings[i].budget;
+            newBid.bidLocation = foundUser.listings[i].location;
             setTimeout(function() {
               db.User.findById(req.user, function(err, currentUser) {
                 console.log(currentUser.email)
@@ -42,6 +45,7 @@ function create(req, res) {
                 newBid.bidTopic = foundUser.listings[i].topic;
                 newBid.bidDescription = foundUser.listing[i].description;
                 newBid.bidBudget = foundUser.listings[i].budget;
+                newBid.bidLocation = foundUser.listings[i].location;
                 currentUser.myBids.push(newBid);
                 currentUser.save(function (err, savedUser) {
                   if (err) {
