@@ -1,4 +1,7 @@
-# IdentiFly
+# B2B.City
+
+### Setup
+Need to set up .env file for your secret.
 
 ## Scope
 For anyone running a small to medium business, finding the right manufacturer, contractor, logistics partner, IT partner - the list goes on- has always been difficult. These folks rely on word-of-mouth recommendations, incomplete online resources or cold-calls. It's also extremely difficult to verify the credibility or reliability due to the lack of transparency.

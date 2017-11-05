@@ -23,7 +23,7 @@ app.set('view engine', 'hbs');
 
 mongoose.Promise = global.Promise;
 
-// connect to mongodb
+// connect to mongodb //
 // production, mLabs
 mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{useMongoClient: true})
   .then(() => {
@@ -33,7 +33,7 @@ mongoose.connect('mongodb://admin:admin123@ds149724.mlab.com:49724/b2b-city',{us
     console.error('Error connecting to the database: ', err);
   });
 
-// local testing
+// local testing //
 // mongoose.connect('mongodb://localhost/identifly',{useMongoClient: true})
 //   .then(() => {
 //     console.log('Connected to database at', new Date().toLocaleString());
