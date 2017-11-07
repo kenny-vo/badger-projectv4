@@ -14,12 +14,12 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Date Posted</th>
-                <th scope="col">Listing</th>
-                <th scope="col">Description</th>
-                <th scope="col">Budget</th>
-                <th scope="col">Offers</th>
-
+                <th class="col-md-2">Date Posted</th>
+                <th class="col-md-2">Listing</th>
+                <th class="col-md-4">Description</th>
+                <th class="col-md-2">Budget</th>
+                <th class="col-md-2">Responses</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -28,10 +28,16 @@
                 <td>{{listing.topic}}</td>
                 <td>{{listing.description}}</td>
                 <td>{{listing.budget| currency : $ : 0}}</td>
-                <td><i class="fa fa-comments" aria-hidden="true"></i><a ui-sref="listings-response({listingId: listing._id})">  Responses: {{listing.bids.length}}</a></td>
-
-                      <button class='btn btn-danger' ng-click="profile.deleteListing(listing)">Delete Listing</button>
-                      <button class='btn btn-primary' ng-click="profile.goToEditListing(listing);">Edit Listing</button>
+                <td><a ui-sref="listings-response({listingId: listing._id})">  Review Bids: {{listing.bids.length}}</a></td>
+                <td><div class="dropdown">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </button>
+                  <ul class="dropdown-menu">
+                    <li><button class='btn btn-danger' ng-click="profile.deleteListing(listing)">Delete Listing</button></li>
+                    <li><button class='btn btn-primary' ng-click="profile.goToEditListing(listing);">Edit Listing</button></li>
+                  </ul>
+                </div></td>
 
               </tr>
 
