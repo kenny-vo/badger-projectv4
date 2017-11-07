@@ -31,5 +31,10 @@ body {
   -webkit-transform: scale(1.08);
   -ms-transform: scale(1.08);
   transform: scale(1.08);
+}
 
+.your-listing-box {
+  border: 1px;
+  border-width: thick;
+  border-color: black;
 }
