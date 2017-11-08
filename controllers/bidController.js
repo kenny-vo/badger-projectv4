@@ -30,7 +30,7 @@ function create(req, res) {
             console.log('Found listing: ' + foundUser.listings[i].topic);
             let newBid = new db.Bid(req.body);
             newBid.uid = currentUser._id;
-            newBid.respondEmail = currentUser.email;
+            newBid.responseEmail = currentUser.email;
             newBid.createBy = foundUser.listings[i].createdBy;
             newBid.bidTopic = foundUser.listings[i].topic;
 
@@ -54,7 +54,6 @@ function create(req, res) {
             let oldLength = foundUser.listings[i].bids.length;
             foundUser.listings[i].bids.set(oldLength, newBid);
             foundUser.save(function(err, savedListing) {
-              // console.log(foundUser.listings[i])
               if (err) {
                 console.log('Error: ', err);
                 return;
