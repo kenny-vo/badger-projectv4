@@ -10,7 +10,6 @@ function index(req, res) {
     res.json(foundListing.bids);
   });
 }
-
 function create(req, res) {
   db.Listing.findById(req.params.listingId, function(err, foundListing) {
     if (err) {
@@ -19,33 +18,30 @@ function create(req, res) {
     db.User.findOne({
       'listings._id': req.params.listingId
     }, function(err, foundUser) {
+      // console.log(foundUser.listings);
       if (err) {
         console.log('Error: ', err);
       }
       for (let i = 0; i < foundUser.listings.length; i++) {
+        // console.log(foundUser.listings[i]._id);
         if (foundUser.listings[i]._id == req.params.listingId) {
           db.User.findById(req.user, function(err, currentUser) {
-            console.log(currentUser)
+            // console.log(currentUser)
             console.log('Found listing: ' + foundUser.listings[i].topic);
             let newBid = new db.Bid(req.body);
             newBid.uid = currentUser._id;
-            newBid.responseEmail = currentUser.email;
-            newBid.createdBy = foundUser.listings[i].createdBy;
+            newBid.respondEmail = currentUser.email;
+            newBid.createBy = foundUser.listings[i].createdBy;
             newBid.bidTopic = foundUser.listings[i].topic;
-            newBid.bidDescription = foundUser.listing[i].description;
-            newBid.bidBudget = foundUser.listings[i].budget;
-            newBid.bidLocation = foundUser.listings[i].location;
+
             setTimeout(function() {
               db.User.findById(req.user, function(err, currentUser) {
                 console.log(currentUser.email)
                 let newBid = new db.Bid(req.body);
                 newBid.uid = currentUser._id;
-                newBid.responseEmail = currentUser.email;
-                newBid.createdBy = foundUser.listings[i].createdBy;
+                newBid.respondEmail = currentUser.email;
+                newBid.createBy = foundUser.listings[i].createdBy;
                 newBid.bidTopic = foundUser.listings[i].topic;
-                newBid.bidDescription = foundUser.listing[i].description;
-                newBid.bidBudget = foundUser.listings[i].budget;
-                newBid.bidLocation = foundUser.listings[i].location;
                 currentUser.myBids.push(newBid);
                 currentUser.save(function (err, savedUser) {
                   if (err) {
@@ -58,6 +54,7 @@ function create(req, res) {
             let oldLength = foundUser.listings[i].bids.length;
             foundUser.listings[i].bids.set(oldLength, newBid);
             foundUser.save(function(err, savedListing) {
+              // console.log(foundUser.listings[i])
               if (err) {
                 console.log('Error: ', err);
                 return;
@@ -69,6 +66,7 @@ function create(req, res) {
       }
     })
   });
+
 };
 
 module.exports = {
