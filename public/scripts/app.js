@@ -63,6 +63,12 @@ function configRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
       controller: 'HomeController',
       controllerAs: 'home'
     })
+    .state('listing-detail1', {
+      url: '/edit-listing/:listingId',
+      templateUrl: 'templates/listing-show.html',
+      controller: 'HomeController',
+      controllerAs: 'home'
+    })
     .state('about', {
       url: '/about',
       templateUrl: 'templates/about.html'
@@ -178,8 +184,8 @@ function MainController (Account) {
 
 }
 
-HomeController.$inject = ["$http", '$location'];
-function HomeController ($http, $location) {
+HomeController.$inject = ["$http", '$location' , '$stateParams'];
+function HomeController ($http, $location , $stateParams) {
 
   var vm = this;
   vm.newListing = {};
@@ -189,8 +195,20 @@ function HomeController ($http, $location) {
     url: '/api/listings'
   }).then(function successCallback(response) {
     vm.listings = response.data;
+    console.log(response.data);
   }, function errorCallback(response) {
     console.log('Error getting data', response);
+  });
+
+  $http({
+    method: 'GET',
+    url: '/api/listings/'+ $stateParams.listingId
+  }).then(function successCallback(json) {
+    if (json.data) {
+    vm.listing = json.data;
+    }
+  }, function errorCallback(response) {
+    console.log('There was an error getting the data', response);
   });
 }
 
@@ -339,7 +357,9 @@ function ListingShowController (Account, $http, $location, $scope, $stateParams,
     method: 'GET',
     url: '/api/responses/'+$stateParams.listingId
   }).then(function successCallback(json) {
+    if (json.data) {
     vm.listing = json.data;
+    }
   }, function errorCallback(response) {
     console.log('There was an error getting the data', response);
   });
