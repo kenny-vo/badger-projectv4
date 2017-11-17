@@ -42,7 +42,8 @@ function create(req, res) {
 
 // DETAIL
 function show(req, res) {
-    db.Listing.findById(req.params.listingId, function(err, foundListing) {
+    db.Listing.findById(req.params.listingId, function(err, foundListing)
+    {
       if(err) { console.log('listingsController.show error', err); }
      res.json(foundListing);
 
@@ -57,7 +58,7 @@ function responses(req, res) {
     });
 
     if (err) {
-      console.log('listingsController.show error', err);
+      console.log('listingsController.showResponse', err);
     }
     res.json(pertinentListing);
   });

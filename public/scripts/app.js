@@ -199,17 +199,17 @@ function HomeController ($http, $location , $stateParams) {
   }, function errorCallback(response) {
     console.log('Error getting data', response);
   });
-
-  $http({
-    method: 'GET',
-    url: '/api/listings/'+ $stateParams.listingId
-  }).then(function successCallback(json) {
-    if (json.data) {
-    vm.listing = json.data;
-    }
-  }, function errorCallback(response) {
-    console.log('There was an error getting the data', response);
-  });
+  // 
+  // $http({
+  //   method: 'GET',
+  //   url: '/api/listings/'+ $stateParams.listingId
+  // }).then(function successCallback(json) {
+  //   if (json.data) {
+  //   vm.listing = json.data;
+  //   }
+  // }, function errorCallback(response) {
+  //   console.log('There was an error getting the data', response);
+  // });
 }
 
 LoginController.$inject = ["$location", "Account"];
