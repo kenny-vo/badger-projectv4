@@ -55,7 +55,9 @@ var Listing = require('./models/listing');
 
  // Listings
  app.get('/api/listings',controllers.listings.index);
+ app.get('/api/listings/public/:listingId', controllers.listings.show);
  app.get('/api/listings/:listingId', auth.ensureAuthenticated, controllers.listings.show);
+
  app.get('/api/responses/:listingId', auth.ensureAuthenticated, controllers.listings.responses);
 
  app.post('/api/listings', auth.ensureAuthenticated, controllers.listings.create);
